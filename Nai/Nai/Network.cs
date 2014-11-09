@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace en.AndrewTorski.Nai.TaskOne
 {
@@ -54,18 +54,19 @@ namespace en.AndrewTorski.Nai.TaskOne
 			//	Note: each neuron will have it's weighs randomized from range [0, 1]
 
 			//	Populate input neuron list
-			for (var i = 0; i < InputNeurons.Capacity; i++)
+			for (int i = 0; i < InputNeurons.Capacity; i++)
 			{
-				InputNeurons[i] = new Neuron("Input", 7, _activationFunction);
-				InputNeurons[i].SetConstantWeights();
-
+				var newInputNeuron = new Neuron("Input", 7, _activationFunction);
+				newInputNeuron.SetRandomWeights();
+				InputNeurons.Add(newInputNeuron);
 			}
 
 			//	Populate hidden neuron list
-			for (var i = 0; i < HiddenNeurons.Capacity; i++)
+			for (int i = 0; i < HiddenNeurons.Capacity; i++)
 			{
-				HiddenNeurons[i] = new Neuron("Hidden", 7, _activationFunction);
-				HiddenNeurons[i].SetRandomWeights();;
+				var newHiddenNeuron = new Neuron("Hidden", 7, _activationFunction);
+				newHiddenNeuron.SetRandomWeights();
+				HiddenNeurons.Add(newHiddenNeuron);
 			}
 
 			//	Note: Output neuron was already instantiated in the Network constructor.
@@ -88,7 +89,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 			//	d = (t - y) * f'(y)
 			//	Above could be extended to the following form:
 			//	d = (t - y) * (y * ( 1 - y))
-			OutputNeuron.DeltaValue = (expectedOutput - OutputNeuron.Output)*OutputNeuron.Output*(1.0 - OutputNeuron.Output);
+			OutputNeuron.DeltaValue = (expectedOutput - OutputNeuron.Output) * OutputNeuron.Output * (1.0 - OutputNeuron.Output);
 
 			//	Calculate the new weights of inputs to the Output neuron.
 			//	w_i	-	weight of the input i
@@ -97,32 +98,34 @@ namespace en.AndrewTorski.Nai.TaskOne
 			//	z_i	-	signal coming from input i
 			//	Formula is as follows:
 			//	w_i = e * d * z_i
-			for (var i = 0; i < OutputNeuron.NumberOfInputs; i++)
+			for (int i = 0; i < OutputNeuron.NumberOfInputs; i++)
 			{
-				OutputNeuron.InputWeights[i] += learningRate*OutputNeuron.DeltaValue*OutputNeuron.Inputs[i];
+				OutputNeuron.InputWeights[i] += learningRate * OutputNeuron.DeltaValue * OutputNeuron.Inputs[i];
 			}
 
 			//	For OutputNeuron's bias.
-			OutputNeuron.InputWeights[OutputNeuron.NumberOfInputs + 1] += learningRate*OutputNeuron.DeltaValue;
+			OutputNeuron.InputWeights[OutputNeuron.NumberOfInputs] += learningRate * OutputNeuron.DeltaValue;
 
 			//	Calculate the delta values for the hidden layer
 			//	d	-	delta value
 			//	s	-	weighted arithmetic mean of wo_i	-	Output neuron's input weights and
-			//									do_i	-	Output neuron's delta value
+			//										do_i	-	Output neuron's delta value
 			//	f'(x) - first deriviate of the activation function
 			//	
 			//	d = E(wo_i*do_i) * f'(y)
 			//	Above could be extended to the following form:
 			//	d = E(wo_i*do_i) * (y * ( 1 - y))
 			//	
+			//	Where E should be sigma...	
+			//
 			//	In other words: the hidden neuron collects the error from the neurons it is connected with.
 			//	But since we only consider one output neuron we conduct no summing.
 
 			for (var i = 0; i < HiddenNeurons.Count; i++)
 			{
 				var hiddenNeuron = HiddenNeurons[i];
-				hiddenNeuron.DeltaValue = hiddenNeuron.Output*(1.0 - hiddenNeuron.Output)*
-				                          (OutputNeuron.InputWeights[i]*OutputNeuron.DeltaValue);
+				hiddenNeuron.DeltaValue = hiddenNeuron.Output * (1.0 - hiddenNeuron.Output) *
+				                          (OutputNeuron.InputWeights[i] * OutputNeuron.DeltaValue);
 			}
 
 			//	Calculate the new weights of inputs to the Hidden neurons.
@@ -132,26 +135,102 @@ namespace en.AndrewTorski.Nai.TaskOne
 			//	z_i	-	signal coming from input i
 			//	Formula is as follows:
 			//	w_i = e * d * z_i
-			for (var i = 0; i < HiddenNeurons.Count; i++)
+			foreach (var hiddenNeuron in HiddenNeurons)
 			{
-				var hiddenNeuron = HiddenNeurons[i];
-				for (int j = 0; j < hiddenNeuron.NumberOfInputs; j++)
+				for (var j = 0; j < hiddenNeuron.NumberOfInputs; j++)
 				{
-					hiddenNeuron.InputWeights[j] += learningRate*hiddenNeuron.DeltaValue*hiddenNeuron.Inputs[i];
+					hiddenNeuron.InputWeights[j] += learningRate * hiddenNeuron.DeltaValue * hiddenNeuron.Inputs[j];
 				}
 
 				//	Now for hiddenNeuron's bias.
-				hiddenNeuron.InputWeights[hiddenNeuron.NumberOfInputs + 1] += learningRate*hiddenNeuron.DeltaValue;
+				hiddenNeuron.InputWeights[hiddenNeuron.NumberOfInputs] += learningRate * hiddenNeuron.DeltaValue;
 			}
 
+			//	Calculate the delta values for input neurons
+			//	d	-	delta value
+			//	s	-	weighted arithmetic mean of wh_i	-	hidden neuron's input weights and
+			//										dh_i	-	hidden neuron's delta value
+			//	f'(x) - first deriviate of the activation function
+			//	
+			//	
+			//	Where E should be sigma...	
+			//
+			//	d = E(wh_i*dh_i) * f'(y)
+			//	Above could be extended to the following form:
+			//	d = E(wh_i*dh_i) * (y * ( 1 - y))
+			//
+			//	For each input neuron, we have to iterate over the hidden neurons it is connected with.
+			double error = 0.0;
+			for (var i = 0; i < InputNeurons.Count; i++)
+			{
+				var inputNeuron = InputNeurons[i];
+
+				//	LINQ function which for each hiddenNeuron in HiddenNeurons Collection caluclates and returns associated error
+				//	LINQ rocks!
+				error += HiddenNeurons.Sum(hiddenNeuron => hiddenNeuron.InputWeights[i] * hiddenNeuron.DeltaValue);
+
+				inputNeuron.DeltaValue = inputNeuron.Output * (1.0 - inputNeuron.Output) * error;
+
+				error = 0.0;
+			}
+
+			//	Calculate the new weights of inputs to Input neuron
+
+			foreach (var inputNeuron in InputNeurons)
+			{
+				for (var j = 0; j < inputNeuron.NumberOfInputs; j++)
+				{
+					inputNeuron.InputWeights[j] += learningRate * inputNeuron.DeltaValue * inputNeuron.Inputs[j];
+				}
+				//	Now for inputNeuron's bias.
+				inputNeuron.InputWeights[inputNeuron.NumberOfInputs ] += learningRate * inputNeuron.DeltaValue;
+			}
+
+			//	FINISH
 		}
 
 		/// <summary>
-		///     Conduct a classification of the vector of Ascii vectors and determine whether it matches the criteria.
+		///     Conduct a classification of the collection of Ascii vectors and returns a value.
 		/// </summary>
-		public bool ConductClassification()
+		public double ConductClassification(List<AsciiVector> asciiVectorsList)
 		{
-			throw new NotImplementedException();
+			//	Assign each vector to respective input neuron.
+			for (var i = 0; i < InputNeurons.Count; i++)
+			{
+				InputNeurons[i].PutAsciiVectorToInput(asciiVectorsList[i]);
+			}
+
+			//	Calculate the Output values(calculated by the provided activation function) for each InputNeuron
+			foreach (var inputNeuron in InputNeurons)
+			{
+				inputNeuron.GetNeuralResponse();
+			}
+
+			//	Assign InputNeurons' Output values to HiddenNeurons' Input values.
+			foreach (var hiddenNeuron in HiddenNeurons)
+			{
+				for (var j = 0; j < InputNeurons.Count; j++)
+				{
+					var inputNeurons = InputNeurons[j];
+					hiddenNeuron.Inputs[j] = inputNeurons.Output;
+				}
+			}
+
+			//Calculate the Output values for each HiddenNeuron
+			foreach (var hiddenNeuron in HiddenNeurons)
+			{
+				hiddenNeuron.GetNeuralResponse();
+			}
+
+			//	Assign HiddenNeuron's Output values to OutputNeuron's Input values.
+			for (var j = 0; j < HiddenNeurons.Count; j++)
+			{
+				var hiddenNeuron = HiddenNeurons[j];
+				OutputNeuron.Inputs[j] = hiddenNeuron.Output;
+			}
+
+			//	Return the final neuron response.
+			return OutputNeuron.GetNeuralResponse();
 		}
 	}
 }
