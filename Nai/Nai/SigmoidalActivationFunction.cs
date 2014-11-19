@@ -82,5 +82,6 @@ namespace en.AndrewTorski.Nai.TaskOne
 		{
 			return Evaluate(parameterX)*(1 - Evaluate(parameterX));
 		}
+
 	}
 }

@@ -75,7 +75,8 @@ namespace en.AndrewTorski.Nai.TaskOne
 		/// <summary>
 		///     Conduct a run to train neurons.
 		/// </summary>
-		public void TrainNeurons(int numberOfRuns, IList<byte> expectedAsciiVector, double expectedOutput, double learningRate)
+
+		public void TrainNeurons(double expectedOutput, double learningRate)
 		{
 			//	READTHIS READTHIS READTHIS
 			//	Before a TrainNeurons run is conducted, a standard classification run(ConductClassification() method) should be run. 
@@ -192,6 +193,9 @@ namespace en.AndrewTorski.Nai.TaskOne
 		/// <summary>
 		///     Conduct a classification of the collection of Ascii vectors and returns a value.
 		/// </summary>
+		/// <returns>
+		///		Returns the calculated output value.
+		/// </returns>
 		public double ConductClassification(List<AsciiVector> asciiVectorsList)
 		{
 			//	Assign each vector to respective input neuron.
