@@ -7,8 +7,6 @@ namespace en.AndrewTorski.Nai.TaskOne
 
 	public class Program
 	{
-
-
 		/// <summary>
 		///		Returns a collection of AsciiVectors representing the given string.
 		/// </summary>
@@ -35,7 +33,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 		}
 
 		/// <summary>
-		/// 	Returns a collection of AsciiVectors representing the given string.
+		/// 	Returns a collection of AsciiVectors wrapped toghether with associated and expected output value representing the given string.
 		/// </summary>
 		/// <param name="name">
 		///		String for which we obtain the List of AsciiVectors
@@ -46,19 +44,23 @@ namespace en.AndrewTorski.Nai.TaskOne
 		/// <returns>
 		/// 
 		///	</returns>
-		public static List<AsciiVector> GetInputSet(string name, double expected)
+		public static AsciiVectorCollectionWrapper GetInputSet(string name, double expected)
 		{
-			return name.ToCharArray().
+			var listOfVectors = name.ToCharArray().
 				Select(letter => Convert.ToString(letter, 2)).
-				Select(zerosOnesString => new AsciiVector(zerosOnesString, expected)).
+				Select(zerosOnesString => new AsciiVector(zerosOnesString)).
 				ToList();
+
+			var resultAsciiVectorCollectionWrapper = new AsciiVectorCollectionWrapper(expected, listOfVectors, name);
+
+			return resultAsciiVectorCollectionWrapper;
 		}
 
 		/// <summary>
-		///		
+		///		Initializes and returns a training set in form of a collection of AsciiVectorCollectionWrappers.
 		/// </summary>
 		/// <returns></returns>
-		public static List<List<AsciiVector>> GetTrainingSet()
+		public static List<AsciiVectorCollectionWrapper> GetTrainingSet()
 		{
 			string[] correctSamples = 
 			{		
@@ -71,6 +73,9 @@ namespace en.AndrewTorski.Nai.TaskOne
 				"MaxPowr", "PowerMx", "Sevennn", "NiceOne", "MopsKlo",
 				"NieAndr", "MaxKolo", "SixSeve", "Correct", "NCorrec"
 			};
+
+/*			string[] correctSamples = {"Andrzej", "anDrzej"};
+			string[] incorrectSamples = {"MAxpowr", "SixSeve"};*/
 
 			var result = correctSamples.Select(correctSample => GetInputSet(correctSample, 1.0)).ToList();
 
@@ -92,11 +97,13 @@ namespace en.AndrewTorski.Nai.TaskOne
 			network.SetUp();
 
 			var learningRate = 0.0;
-			var expectedOutputValue = 1.0;
 			var asciiVectorList = new List<AsciiVector>();
 
 			var query = string.Empty;
 			var messageLoopCondition = true;
+
+			//	Initialize the training set with example data, both wrong and correct.
+			var trainingSets = GetTrainingSet();
 
 			while (messageLoopCondition)
 			{
@@ -111,20 +118,6 @@ namespace en.AndrewTorski.Nai.TaskOne
 
 				switch (command)
 				{
-					case "newset":
-					{
-						if (tokenizedString.Length < 3)
-						{
-							Console.WriteLine("You must provide a set! and it's expected value!");
-							break;
-						}
-						var secondToken = tokenizedString[1];
-						asciiVectorList = GetInputSet(secondToken);
-
-						expectedOutputValue = Double.Parse(tokenizedString[2]);
-
-						break;
-					}
 					case "train":
 					{
 						if (tokenizedString.Length < 2)
@@ -136,15 +129,29 @@ namespace en.AndrewTorski.Nai.TaskOne
 
 						for (var i = 0; i < numberOfTrains; i++)
 						{
-							network.TrainNeurons(expectedOutputValue, learningRate);
-						}
+							foreach (var trainingSet in trainingSets)
+							{
+								network.ConductClassification(trainingSet.AsciiVectors);
+								network.TrainNeurons(trainingSet.ExpectedValue, learningRate);	
+							}
 
-						Console.WriteLine("Evauluating after training. \n Output = {0}", network.ConductClassification(asciiVectorList));
+							//	Shuffle the training sets between epochs
+							trainingSets.Shuffle();
+						}
+						Console.WriteLine("Training completed.");
 						break;
 					}
 					case "classify":
 					{
-						Console.WriteLine("Result of the evaluation. \n Output = {0}", network.ConductClassification(asciiVectorList));
+						foreach (var trainingSet in trainingSets)
+						{
+							var resultOutput = network.ConductClassification(trainingSet.AsciiVectors);
+							var expectedOutput = trainingSet.ExpectedValue;
+							var alphaNumericVector = trainingSet.AlphaNumericValue;
+
+							Console.WriteLine("For AlphaNumericValue: {0} expected value is: {1}, calculated by the network value is: {2}", alphaNumericVector, expectedOutput, resultOutput);
+						}
+
 						break;
 					}
 					//	Set learning rate;

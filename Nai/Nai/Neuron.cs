@@ -10,6 +10,8 @@ namespace en.AndrewTorski.Nai.TaskOne
 		
 		private readonly IActivationFunction _activationFunction;
 
+		private static Random random = new Random();
+
 		#endregion
 
 		/// <summary>
@@ -117,8 +119,6 @@ namespace en.AndrewTorski.Nai.TaskOne
 		/// </remarks>
 		public void SetRandomWeights()
 		{
-			var random = new Random();
-
 			for (var i = 0; i < NumberOfInputs + 1; i++)
 			{
 				//InputWeights[i] = (random.NextDouble() * 4) - 2.0;
