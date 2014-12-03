@@ -10,7 +10,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 		
 		private readonly IActivationFunction _activationFunction;
 
-		private static Random random = new Random();
+		private static readonly Random random = new Random();
 
 		#endregion
 

@@ -71,7 +71,6 @@ namespace en.AndrewTorski.Nai.TaskOne
 				newInputNeuron = new Neuron("Input", 7, _activationFunction);
 				newInputNeuron.SetRandomWeights();
 				InputNeurons.Add(newInputNeuron);
-				Console.WriteLine("NEWS");
 			}
 
 			//	Populate hidden neuron list

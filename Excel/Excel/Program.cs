@@ -35,7 +35,6 @@ namespace Excel
 
 				var network = new Network(7, 7, new SigmoidalActivationFunction());
 				var trainingSets = Program.GetTrainingSet();
-
 				ExcelRange etaCell, errorCell;
 
 
@@ -46,7 +45,7 @@ namespace Excel
 					for (var j = 1; j <= 20; j++)
 					{
 						//Console.WriteLine("Setting up");
-						network.RandomizeWeights();
+						
 						for (var k = 0; k < numberOfRunsPerEtaStep; k++)
 						{
 							trainingSets.Shuffle();
