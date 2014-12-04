@@ -26,5 +26,9 @@ namespace en.AndrewTorski.Nai.TaskOne
 		///		Result of the evaluation
 		/// </returns>
 		double EvaluateFirstDerivative(double parameterX);
+
+
+		double Alpha { get; set; }
+		double Beta { get; set; }
 	}
 }

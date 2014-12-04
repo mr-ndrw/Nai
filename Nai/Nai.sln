@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nai.TaskOne", "Nai\Nai.Task
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EtaMetricCalculation", "EtaMetricCalculation\EtaMetricCalculation.csproj", "{F3A224B2-5581-4B10-A48B-4C12F7E0F70A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivationFunctionMetric", "ActivationFunctionMetric\ActivationFunctionMetric.csproj", "{0203A9E4-9E2E-4AE0-9821-B2FAD33ED5B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F3A224B2-5581-4B10-A48B-4C12F7E0F70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3A224B2-5581-4B10-A48B-4C12F7E0F70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3A224B2-5581-4B10-A48B-4C12F7E0F70A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0203A9E4-9E2E-4AE0-9821-B2FAD33ED5B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0203A9E4-9E2E-4AE0-9821-B2FAD33ED5B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0203A9E4-9E2E-4AE0-9821-B2FAD33ED5B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0203A9E4-9E2E-4AE0-9821-B2FAD33ED5B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

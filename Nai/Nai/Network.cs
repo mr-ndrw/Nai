@@ -49,14 +49,13 @@ namespace en.AndrewTorski.Nai.TaskOne
 			 *		-	each input neuron accepts a single Ascii character/vector, which length is 7.(For instance letter 'A' is 100 0001) Therefore
 			 *			each input neuron will have 7 inputs,
 			 *		-	the number of neurons in hidden layer will be identical to that of input layer - 7,
-			 *		-	each hiden neuron will have 7 inputs,
-			 *		-	each input neuron will have it's output collected by each of the hidden neurons, which constitutes the following:
-			 *			7 input neurons and 7 hidden neurons gives us a total of 49(7 * 7) connectiong between input layer and hidden layer.
+			 *		-	each hiden neuron will have 3 inputs,
+			 *		-	each input neuron will have it's output collected by each of the hidden neurons
 			 *		-	since we expect a yes/no answer, there will be only one output neuron.
 			 *		-	each hidden neuron will have it's output collected by the output layer.
 			 *		
 			 *	In short:
-			 *		-	7 input neurons,(one layer)
+			 *		-	3 hidden/input neurons,(one layer)
 			 *		-	7 hidden neurons,(one layer)
 			 *		-	1 output neuron.(one layer)
 			 ***************************************************************************************************************************************/
