@@ -1,4 +1,10 @@
-﻿namespace en.AndrewTorski.Nai.TaskOne
+﻿/*	
+ *	Project Name:	Nai Project - Neural Network.
+ *	Author:			Andrzej Torski
+ *	Index:			s10415
+ */
+
+namespace en.AndrewTorski.Nai.TaskOne
 {
 	/// <summary>
 	///		Defines a contract for all inherting classes to realize.

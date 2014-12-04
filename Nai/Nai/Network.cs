@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*	
+ *	Project Name:	Nai Project - Neural Network.
+ *	Author:			Andrzej Torski
+ *	Index:			s10415
+ */
+
 using System.Collections.Generic;
 using System.Linq;
 
