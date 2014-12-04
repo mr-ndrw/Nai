@@ -7,8 +7,8 @@
     <ProjectGuid>{F3A224B2-5581-4B10-A48B-4C12F7E0F70A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Excel</RootNamespace>
-    <AssemblyName>Excel</AssemblyName>
+    <RootNamespace>EtaMetricCalculation</RootNamespace>
+    <AssemblyName>EtaMetricCalculation</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

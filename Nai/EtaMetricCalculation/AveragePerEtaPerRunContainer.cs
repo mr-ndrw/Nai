@@ -7,10 +7,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-
-namespace Excel
+namespace EtaMetricCalculation
 {
 	/// <summary>
 	///		Simple container for a 2-D Array.

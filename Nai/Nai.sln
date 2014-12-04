@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nai.TaskOne", "Nai\Nai.TaskOne.csproj", "{54878875-C274-4456-9431-97A09B9410E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Excel", "Excel\Excel.csproj", "{F3A224B2-5581-4B10-A48B-4C12F7E0F70A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EtaMetricCalculation", "EtaMetricCalculation\EtaMetricCalculation.csproj", "{F3A224B2-5581-4B10-A48B-4C12F7E0F70A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
