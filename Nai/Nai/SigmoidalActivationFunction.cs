@@ -31,7 +31,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 		///		Initializes an object of function with default(equal to 1) parameters.
 		/// </summary>
 		public SigmoidalActivationFunction()
-			:this(1.0, 1.0)
+			:this(1.0, 0.0)
 		{
 			
 		}

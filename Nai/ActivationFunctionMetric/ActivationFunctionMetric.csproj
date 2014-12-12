@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3dStatisticalContainer.cs" />
-    <Compile Include="ActivationFunctionMetricProgram.cs" />
+    <Compile Include="ActivationFunctionEvaluation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
