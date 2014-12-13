@@ -76,6 +76,7 @@ namespace ActivationFunctionMetric
 				//	Train the network with function's parameters Alpha = 1 and Beta = 0.
 				for (var i = 0; i < numberOfLearningRuns; i++)
 				{
+					//	Shuffle the training sets for believable training.
 					trainingSets.Shuffle();
 					foreach (var trainingSet in trainingSets)
 					{
@@ -98,7 +99,11 @@ namespace ActivationFunctionMetric
 					{
 						//	Change the alpha value of the activation function.
 						function.Alpha = currentAlpha;
+
 						//	Classify the sample and get the response.
+						//	CONSIDER: 	using the entire training set space instead of just one example which we deem correct/incorrect
+						//	CONSIDER: 	calculating and summing up (for given parameters)the absolute value of the difference between expected value and the calculatated one
+						//				and later dividing that sum by the total number of runs.
 						var calculated = network.ConductClassification(sample.AsciiVectors);
 						//	Add the calculated error to the 2d array.
 						statData[currentBetaStep - 1, currentAlphaStep - 1] += calculated;
@@ -118,7 +123,7 @@ namespace ActivationFunctionMetric
 			using (var xlPackage = new ExcelPackage())
 			{
 				xlPackage.Workbook.Properties.Author = "Andrzej Torski";
-				xlPackage.Workbook.Properties.Title = "Nai.TaskOne";
+				xlPackage.Workbook.Properties.Title = "Nai.TaskOne.ActivationFunctionEvaluation";
 				xlPackage.Workbook.Properties.Company = "Andrew Torski Artifical Computing";
 
 				xlPackage.Workbook.Worksheets.Add("Data");
