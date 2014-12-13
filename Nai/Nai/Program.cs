@@ -39,7 +39,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 		}
 
 		/// <summary>
-		/// 	Returns a collection of AsciiVectors wrapped toghether with associated and expected output value representing the given string.
+		/// 	Returns a collection of AsciiVectors wrapped toghether with associated and expected(!!!) output value representing the given string.
 		/// </summary>
 		/// <param name="name">
 		///		String for which we obtain the List of AsciiVectors
@@ -50,6 +50,18 @@ namespace en.AndrewTorski.Nai.TaskOne
 		/// <returns>
 		/// 
 		///	</returns>
+		/// <example>
+		///		For instance: 
+		///			By passing string = "Andrzej" to the method,
+		///			a collection of following Vectors will be returned:
+		///			[0] = 100 0001	'A'
+		///			[1] = 110 1110	'n'
+		///			[2] = 110 0100	'd'
+		/// 		[3] = 111 0010	'r'
+		/// 		[4] = 111 1010	'z'
+		/// 		[5] = 110 0101	'e'
+		///			[6] = 110 1010	'j'
+		/// </example>
 		public static AsciiVectorCollectionWrapper GetInputSet(string name, double expected)
 		{
 			var listOfVectors = name.ToCharArray().
@@ -80,13 +92,9 @@ namespace en.AndrewTorski.Nai.TaskOne
 				"NieAndr", "MaxKolo", "SixSeve", "Correct", "NCorrec"
 			};
 
-/*			string[] correctSamples = {"Andrzej", "anDrzej"};
-			string[] incorrectSamples = {"MAxpowr", "SixSeve"};*/
-
 			var result = correctSamples.Select(correctSample => GetInputSet(correctSample, 1.0)).ToList();
 
 			result.AddRange(incorrectSamples.Select(incorrectSample => GetInputSet(incorrectSample, 0.0)));
-
 
 			//	Shuffle the list using the ListHelper.cs method.
 			result.Shuffle();

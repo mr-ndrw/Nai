@@ -18,7 +18,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 		private readonly int _numberOfHiddenNeurons;
 
 		public Network(int numberOfInputNeruons, int numberOfHiddenNeurons, IActivationFunction activationFunction)
-		{
+		{//				and later 
 			InputNeurons = new List<Neuron>(numberOfInputNeruons);
 			HiddenNeurons = new List<Neuron>(numberOfHiddenNeurons);
 
@@ -27,8 +27,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 
 			_activationFunction = activationFunction;
 
-			OutputNeuron = new Neuron("Output", 7, _activationFunction);
-			OutputNeuron.SetRandomWeights();
+			OutputNeuron = new Neuron("Output", numberOfHiddenNeurons, _activationFunction);
 		}
 
 		public List<Neuron> InputNeurons { get; set; }
@@ -44,7 +43,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 		{
 			/****************************************************************************************************************************************
 			 *	The network structure is most primarily dictated by the following elements:
-			 *		-	for each letter in the name: Andrzej, one seperate neuron is dedicated - length of the name Andrzej is 7, hence the number of
+			 *		-	for each letter in the example name: Andrzej, one seperate neuron is dedicated - length of the name Andrzej is 7, hence the number of
 			 *			input neurons is also 7,
 			 *		-	each input neuron accepts a single Ascii character/vector, which length is 7.(For instance letter 'A' is 100 0001) Therefore
 			 *			each input neuron will have 7 inputs,
@@ -55,8 +54,8 @@ namespace en.AndrewTorski.Nai.TaskOne
 			 *		-	each hidden neuron will have it's output collected by the output layer.
 			 *		
 			 *	In short:
-			 *		-	3 hidden/input neurons,(one layer)
-			 *		-	7 hidden neurons,(one layer)
+			 *		-	7 hidden/input neurons,(one layer)
+			 *		-	3 hidden neurons,(one layer)
 			 *		-	1 output neuron.(one layer)
 			 ***************************************************************************************************************************************/
 
@@ -86,7 +85,8 @@ namespace en.AndrewTorski.Nai.TaskOne
 				HiddenNeurons.Add(newHiddenNeuron);
 			}
 
-			//	Note: Output neuron was already instantiated in the Network constructor.
+			OutputNeuron = new Neuron("Output", numberOfHiddenNeurons, _activationFunction);
+			OutputNeuron.SetRandomWeights();
 		}
 
 		/// <summary>

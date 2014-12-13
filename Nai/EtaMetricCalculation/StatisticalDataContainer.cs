@@ -10,6 +10,7 @@ using System.Linq;
 
 namespace EtaMetricCalculation
 {
+	//	TODO: Comment
 	public class StatisticalDataContainer
 	{
 		public StatisticalDataContainer(double [,] dataContainer, int row, int rowLength)

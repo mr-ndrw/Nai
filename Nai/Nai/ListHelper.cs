@@ -22,7 +22,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 		///		Shuffles the elements contained in the list using effective cryptographic random seed.
 		/// </summary>
 		/// <param name="list">
-		///		List which element's are to be shuffled.
+		///		List which elements' are to be shuffled.
 		/// </param>
 		public static void Shuffle<T>(this IList<T> list)
 		{

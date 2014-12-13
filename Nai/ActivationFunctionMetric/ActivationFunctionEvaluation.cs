@@ -15,7 +15,6 @@ namespace ActivationFunctionMetric
 	{
 		public static void Main(string[] args)
 		{
-			//	Finish learning
 
 			var correctSampleRun = GetFileFromFunctionEvaluationRun("Andrzej", 1.0);
 			var incorrectSampleRun = GetFileFromFunctionEvaluationRun("MaxKolo", 0.0);

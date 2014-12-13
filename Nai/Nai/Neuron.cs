@@ -9,6 +9,9 @@ using System;
 
 namespace en.AndrewTorski.Nai.TaskOne
 {
+	///<summary>
+	///		
+	///</summary>
 	public class Neuron
 	{
 
@@ -147,8 +150,12 @@ namespace en.AndrewTorski.Nai.TaskOne
 		}
 
 		/// <summary>
-		///		
+		///		Maps the values container in asciiVector('1' and '0' values contained in an array)
+		///		to consecutive inputs in the neuron.s
 		/// </summary>
+		///	<remarks>
+		///		Predominantly used in input neurons in the proposed model of neural network.
+		///	</remarks>
 		/// <param name="asciiVector"></param>
 		public void PutAsciiVectorToInput(AsciiVector asciiVector)
 		{
