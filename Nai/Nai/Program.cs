@@ -11,6 +11,10 @@ using System.Linq;
 namespace en.AndrewTorski.Nai.TaskOne
 {
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// TODO: Refactor class name to NetworkUtils with R#!
 	public class Program
 	{
 		/// <summary>
@@ -102,125 +106,127 @@ namespace en.AndrewTorski.Nai.TaskOne
 			return result;
 		}
 
-		
-		static void Main(string[] args)
-		{
-			//a = 1, b = 1;
-			var defaultSigmoidActivationFunction = new SigmoidalActivationFunction();
-			var network = new Network(7, 7, defaultSigmoidActivationFunction);
-			network.SetUp();
 
-			var learningRate = 0.0;
-			var asciiVectorList = new List<AsciiVector>();
+		#region Main - Deprecated
+		//static void Main(string[] args)
+		//{
+		//	//a = 1, b = 1;
+		//	var defaultSigmoidActivationFunction = new SigmoidalActivationFunction();
+		//	var network = new Network(7, 7, defaultSigmoidActivationFunction);
+		//	network.SetUp();
 
-			var query = string.Empty;
-			var messageLoopCondition = true;
+		//	var learningRate = 0.0;
+		//	var asciiVectorList = new List<AsciiVector>();
 
-			//	Initialize the training set with example data, both wrong and correct.
-			var trainingSets = GetTrainingSet();
+		//	var query = string.Empty;
+		//	var messageLoopCondition = true;
 
-			while (messageLoopCondition)
-			{
-				//Console.WriteLine("---------------\nProvide a new command:\n---------------");
-				var readLine = Console.ReadLine();
-				if (readLine != null) 
-					query = readLine.ToLower();
+		//	//	Initialize the training set with example data, both wrong and correct.
+		//	var trainingSets = GetTrainingSet();
 
-				var tokenizedString = query.Split(' ');
+		//	while (messageLoopCondition)
+		//	{
+		//		//Console.WriteLine("---------------\nProvide a new command:\n---------------");
+		//		var readLine = Console.ReadLine();
+		//		if (readLine != null) 
+		//			query = readLine.ToLower();
 
-				var command = tokenizedString[0];
+		//		var tokenizedString = query.Split(' ');
 
-				switch (command)
-				{
-					case "train":
-					{
-						if (tokenizedString.Length < 2)
-						{
-							Console.WriteLine("You must provide an integer number argument.");
-							break;
-						}
-						var numberOfTrains = Int32.Parse(tokenizedString[1]);
+		//		var command = tokenizedString[0];
 
-						for (var i = 0; i < numberOfTrains; i++)
-						{
-							foreach (var trainingSet in trainingSets)
-							{
-								network.ConductClassification(trainingSet.AsciiVectors);
-								network.TrainNeurons(trainingSet.ExpectedValue, learningRate);	
-							}
+		//		switch (command)
+		//		{
+		//			case "train":
+		//			{
+		//				if (tokenizedString.Length < 2)
+		//				{
+		//					Console.WriteLine("You must provide an integer number argument.");
+		//					break;
+		//				}
+		//				var numberOfTrains = Int32.Parse(tokenizedString[1]);
 
-							//	Shuffle the training sets between epochs
-							trainingSets.Shuffle();
-						}
-						Console.WriteLine("Training completed.");
-						break;
-					}
-					case "classify":
-					{
-						foreach (var trainingSet in trainingSets)
-						{
-							var resultOutput = network.ConductClassification(trainingSet.AsciiVectors);
-							var expectedOutput = trainingSet.ExpectedValue;
-							var alphaNumericVector = trainingSet.AlphaNumericValue;
+		//				for (var i = 0; i < numberOfTrains; i++)
+		//				{
+		//					foreach (var trainingSet in trainingSets)
+		//					{
+		//						network.ConductClassification(trainingSet.AsciiVectors);
+		//						network.TrainNeurons(trainingSet.ExpectedValue, learningRate);	
+		//					}
 
-							Console.WriteLine("For AlphaNumericValue: {0} expected value is: {1}, calculated by the network value is: {2}", alphaNumericVector, expectedOutput, resultOutput);
-						}
+		//					//	Shuffle the training sets between epochs
+		//					trainingSets.Shuffle();
+		//				}
+		//				Console.WriteLine("Training completed.");
+		//				break;
+		//			}
+		//			case "classify":
+		//			{
+		//				foreach (var trainingSet in trainingSets)
+		//				{
+		//					var resultOutput = network.ConductClassification(trainingSet.AsciiVectors);
+		//					var expectedOutput = trainingSet.ExpectedValue;
+		//					var alphaNumericVector = trainingSet.AlphaNumericValue;
 
-						break;
-					}
-					//	Set learning rate;
-					case "setlr":
-					{
-						if (tokenizedString.Length < 2)
-						{
-							Console.WriteLine("You must provide a real number argument.");
-							break;
-						}
-						learningRate = Double.Parse(tokenizedString[1]);
-						break;
-					}
-					case "setalpha":
-					{
-						if (tokenizedString.Length < 2)
-						{
-							Console.WriteLine("You must provide a real number argument.");
-							break;
-						}
-						var newAlphaValue = Double.Parse(tokenizedString[1]);
-						defaultSigmoidActivationFunction.Alpha = newAlphaValue;
-						break;
-					}
-					case "config":
-					{
-						Console.WriteLine("Learning rate: {0}", learningRate);
-						Console.WriteLine("Function Alpha parameter: {0}", defaultSigmoidActivationFunction.Alpha);
-						
-						printNeuronInfo(network.OutputNeuron);
+		//					Console.WriteLine("For AlphaNumericValue: {0} expected value is: {1}, calculated by the network value is: {2}", alphaNumericVector, expectedOutput, resultOutput);
+		//				}
 
-						foreach (var hiddenNeuron in network.HiddenNeurons)
-						{
-							printNeuronInfo(hiddenNeuron);
-						}
+		//				break;
+		//			}
+		//			//	Set learning rate;
+		//			case "setlr":
+		//			{
+		//				if (tokenizedString.Length < 2)
+		//				{
+		//					Console.WriteLine("You must provide a real number argument.");
+		//					break;
+		//				}
+		//				learningRate = Double.Parse(tokenizedString[1]);
+		//				break;
+		//			}
+		//			case "setalpha":
+		//			{
+		//				if (tokenizedString.Length < 2)
+		//				{
+		//					Console.WriteLine("You must provide a real number argument.");
+		//					break;
+		//				}
+		//				var newAlphaValue = Double.Parse(tokenizedString[1]);
+		//				defaultSigmoidActivationFunction.Alpha = newAlphaValue;
+		//				break;
+		//			}
+		//			case "config":
+		//			{
+		//				Console.WriteLine("Learning rate: {0}", learningRate);
+		//				Console.WriteLine("Function Alpha parameter: {0}", defaultSigmoidActivationFunction.Alpha);
 
-						foreach (var inputNeuron in network.InputNeurons)
-						{
-							printNeuronInfo(inputNeuron);
-						}
+		//				printNeuronInfo(network.OutputNeuron);
 
-						break;
-					}
-					case "quit":
-					{
-						messageLoopCondition = false;
-						break;
-					}
-				}
-			
-			}
+		//				foreach (var hiddenNeuron in network.HiddenNeurons)
+		//				{
+		//					printNeuronInfo(hiddenNeuron);
+		//				}
 
-			Console.WriteLine("Done");
-			Console.ReadKey();
-		}
+		//				foreach (var inputNeuron in network.InputNeurons)
+		//				{
+		//					printNeuronInfo(inputNeuron);
+		//				}
+
+		//				break;
+		//			}
+		//			case "quit":
+		//			{
+		//				messageLoopCondition = false;
+		//				break;
+		//			}
+		//		}
+
+		//	}
+
+		//	Console.WriteLine("Done");
+		//	Console.ReadKey();
+		//} 
+		#endregion
 
 		public static void  printNeuronInfo(Neuron neuron)
 		{

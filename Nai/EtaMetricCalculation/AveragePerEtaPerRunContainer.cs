@@ -43,10 +43,5 @@ namespace EtaMetricCalculation
 
 			return result;
 		}
-
-
-
-
-
 	}
 }

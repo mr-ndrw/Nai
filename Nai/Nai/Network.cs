@@ -17,8 +17,14 @@ namespace en.AndrewTorski.Nai.TaskOne
 		private readonly int _numberOfInputNeurons;
 		private readonly int _numberOfHiddenNeurons;
 
+		/// <summary>
+		///		Create a new instance of the singular output neural network with specified amount of input and hidden neurons.
+		/// </summary>
+		/// <param name="activationFunction">
+		///		The Activation function which will be used throughout the network in neurons to calculate their output.
+		/// </param>
 		public Network(int numberOfInputNeruons, int numberOfHiddenNeurons, IActivationFunction activationFunction)
-		{//				and later 
+		{
 			InputNeurons = new List<Neuron>(numberOfInputNeruons);
 			HiddenNeurons = new List<Neuron>(numberOfHiddenNeurons);
 
@@ -26,14 +32,21 @@ namespace en.AndrewTorski.Nai.TaskOne
 			_numberOfHiddenNeurons = numberOfHiddenNeurons;
 
 			_activationFunction = activationFunction;
-
-			OutputNeuron = new Neuron("Output", numberOfHiddenNeurons, _activationFunction);
 		}
 
+		/// <summary>
+		///		Collection of input<remarks>and hidden by chance?</remarks>neurons in the layer which inputs are the data of the classified set itself.
+		/// </summary>
 		public List<Neuron> InputNeurons { get; set; }
 
+		/// <summary>
+		///		Middle layer hidden neurons.
+		/// </summary>
 		public List<Neuron> HiddenNeurons { get; set; }
 
+		/// <summary>
+		///		Single yes-or-no output neuron in the last layer.
+		/// </summary>
 		public Neuron OutputNeuron { get; set; }
 
 		/// <summary>
@@ -48,7 +61,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 			 *		-	each input neuron accepts a single Ascii character/vector, which length is 7.(For instance letter 'A' is 100 0001) Therefore
 			 *			each input neuron will have 7 inputs,
 			 *		-	the number of neurons in hidden layer will be identical to that of input layer - 7,
-			 *		-	each hiden neuron will have 3 inputs,
+			 *		-	each hiden neuron will have 7 inputs,
 			 *		-	each input neuron will have it's output collected by each of the hidden neurons
 			 *		-	since we expect a yes/no answer, there will be only one output neuron.
 			 *		-	each hidden neuron will have it's output collected by the output layer.
@@ -57,6 +70,15 @@ namespace en.AndrewTorski.Nai.TaskOne
 			 *		-	7 hidden/input neurons,(one layer)
 			 *		-	3 hidden neurons,(one layer)
 			 *		-	1 output neuron.(one layer)
+			 *		
+			 *	Summary:
+			 *		-	this network is VERY SIMPLE, there are no special cross-layer connection, mappings of output/input 
+			 *			are constructed in a way that we can quickly iteratively transmit data(eg. hidden neuron contains 7 inputs which gathers data from 7
+			 *			input neurons.
+			 *		-	the reason for the network model being very simple is that because it is not the point of the research, therefore a simple solution proved 
+			 *			to be the best and for someone inexperienced in neural networks(much like myself in first weeks of research) and allowed me to focus
+			 *			on more critical matters(but still gain valuable knowledge on the whole topology of neurons in a network).
+			 *			
 			 ***************************************************************************************************************************************/
 
 			//	First dispose of old neurons if such exist.
@@ -85,7 +107,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 				HiddenNeurons.Add(newHiddenNeuron);
 			}
 
-			OutputNeuron = new Neuron("Output", numberOfHiddenNeurons, _activationFunction);
+			OutputNeuron = new Neuron("Output", _numberOfHiddenNeurons, _activationFunction);
 			OutputNeuron.SetRandomWeights();
 		}
 
@@ -126,6 +148,16 @@ namespace en.AndrewTorski.Nai.TaskOne
 			//	d = (t - y) * f'(y)
 			//	Above could be extended to the following form:
 			//	d = (t - y) * (y * ( 1 - y)) 
+
+			//	On a side note (and future TODO):	
+			//	It quite beats really the purpose of using an interface to an activation function and then using hardcoded derivative 
+			//	of said function. There is however an argument for that kind of activity. The derivative of sigmoidal function 
+			//	goes like this: f'(x) = f(x)*(1-f(x)). In a proper implementation of an interface of activation function which exposes methods 
+			//	like Evaluate(double value) and EvaluateFirstDerivative(double value) in the latter we have to use value obtained from Evaluate(double)
+			//	which quite frankly is quite heavy to calculate and we already have that value in the neuron(since we used the Evalute(double) function to 
+			//	calculate the neuron's output!). They way below is basically a shortcut and is just for learning purposes. In a future implementation
+			//	I'd use the EvaluateFirstDerivative method from the interface and thus making our implementation more generic and easily testable with different
+			//	activation function. 
 			#endregion
 			OutputNeuron.DeltaValue = (expectedOutput - OutputNeuron.Output) * OutputNeuron.Output * (1.0 - OutputNeuron.Output);
 
@@ -243,7 +275,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 		/// </returns>
 		public double ConductClassification(List<AsciiVector> asciiVectorsList)
 		{
-			//	Assign each vector to respective input neuron.
+			//	Assign each ascii vector from the parameter collection to respective input neuron.
 			for (var i = 0; i < InputNeurons.Count; i++)
 			{
 				InputNeurons[i].PutAsciiVectorToInput(asciiVectorsList[i]);
