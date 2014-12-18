@@ -14,8 +14,7 @@ namespace en.AndrewTorski.Nai.TaskOne
 	/// <summary>
 	/// 
 	/// </summary>
-	/// TODO: Refactor class name to NetworkUtils with R#!
-	public class Program
+	public class NetworkUtils
 	{
 		/// <summary>
 		///		Returns a collection of AsciiVectors representing the given string.

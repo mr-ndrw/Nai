@@ -9,12 +9,11 @@ namespace ActivationFunctionMetric
 	/// <summary>
 	///		Container for a 2D array and a method calculate an average for each cell.
 	/// </summary>
-	//	TODO:	Change the name of the class for something more sensible and readable.
-	public class _3DStatisticalContainer
+	public class FunctionEvaluationStatisticalContainer
 	{
 		private double[,] _errorContainer;
 
-		public _3DStatisticalContainer(int numberOfAlphaSteps, int numberOfBetaSteps)
+		public FunctionEvaluationStatisticalContainer(int numberOfAlphaSteps, int numberOfBetaSteps)
 		{
 			NumberOfAlphaRows = numberOfAlphaSteps;
 			NumberOfBetaColumns = numberOfBetaSteps;

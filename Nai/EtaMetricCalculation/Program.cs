@@ -73,7 +73,7 @@ namespace EtaMetricCalculation
 				var network = new Network(7, 3, new SigmoidalActivationFunction());
 
 				//	Get 20 training sets - half is true, half is false.
-				var trainingSets = Program.GetTrainingSet();
+				var trainingSets = NetworkUtils.GetTrainingSet();
 
 				//	Cells for excel usage.
 				ExcelRange etaCell, errorCell, minCell, maxCell, medianCell, sdCell;
