@@ -13,27 +13,31 @@ namespace Genetic
 		/// </summary>
 		private readonly SelectionMethod _selector;
 
-		/// <summary>
-		///		Creates an GeneticStructure with global function evaluating given members and a selection function 
-		/// </summary>
-		/// <param name="function">
-		///		Shared fitness function across the genetic structure.
-		/// </param>\
-		/// <param name="selector">
-		///		Selector for the given population. 
+		///  <summary>
+		/// 	Creates an GeneticStructure with global function evaluating given members and a selection function 
+		///  </summary>
+		/// <param name="populationCardinality">
+		///		The total number of species within the population.	
 		/// </param>
+		/// <param name="function">
+		/// 	Shared fitness function across the genetic structure.
+		///  </param>\
+		///  <param name="selector">
+		/// 	Selector for the given population. 
+		///  </param>
 		public GeneticStructure(int populationCardinality, IEvaluationFunction function, SelectionMethod selector)
 		{
 			Function = function;
 			_selector = selector;
 
-			populationCardinality = populationCardinality;
+			PopulationCardinality = populationCardinality;
 			Population = new List<Genome>(populationCardinality);
-
-
 		}
 
-		public 
+		/// <summary>
+		///		Total number of species within the population.
+		/// </summary>
+		public int PopulationCardinality { get; private set; } 
 
 		/// <summary>
 		///		Function which evaluates the genomes within the population.
@@ -48,7 +52,25 @@ namespace Genetic
 
 		public void Evolve()
 		{
-			
+			//	Initialize the population with random values inside their Solution (bool)array.
+ 
+			//	Perform an evaluation of each candidate solution in the Population.
+
+			//	Loop until Termination Condition is met.
+			//	DO
+					//	Select the parents.
+
+					//	Recombine the parents - produce offsprings.
+
+					//	Mutate offsprings.
+
+					//	Evaluate new offsprings.
+
+					//	Select individual for the next epooch
+
+			//	OD	--	Rinse, repeat...
+
+			//	CONSIDER: 
 		}
 	}
 }

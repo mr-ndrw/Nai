@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CandidateSolution.cs" />
     <Compile Include="IEvaluationFunction.cs" />
+    <Compile Include="MutationMethod.cs" />
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="SelectionMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

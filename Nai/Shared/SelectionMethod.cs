@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Shared
 {
@@ -13,11 +9,23 @@ namespace Shared
 	{
 		private readonly IEvaluationFunction _fitnessFunction;
 
+		/// <summary>
+		///		Initializes an object with w fitness function which will be used throughout the selection process.
+		/// </summary>
+		/// <param name="fitnessFunction">
+		///		Fitness function.
+		/// </param>
 		protected SelectionMethod(IEvaluationFunction fitnessFunction)
 		{
 			_fitnessFunction = fitnessFunction;
 		}
 
-		public abstract IEnumerable<CandidateSolution> PickBestFitPopulation(IEnumerable<CandidateSolution> candidateSolutions);
+		/// <summary>
+		///		Performs the analysis of the population and modifies it according to the taken strategy.
+		/// </summary>
+		/// <param name="candidateSolutions">
+		///		Collection of solutions on which a selection is performed.
+		/// </param>
+		public abstract void PickBestFitPopulation(IEnumerable<CandidateSolution> candidateSolutions);
 	}
 }

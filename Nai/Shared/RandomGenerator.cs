@@ -17,17 +17,16 @@ namespace Shared
 		}
 
 		/// <summary>
-		///		Generates a random CandidateSolution of given length. (Randomizes it's true-false collection).
+		///		Generates a random collection of bools of specified count.
 		/// </summary>
 		/// <param name="length">
-		///		Length of the solution.
+		///		Count of the collection.
 		/// </param>
-		public CandidateSolution GetRandomCandidateSolution(int length)
+		public IEnumerable<bool> GetRandomBoolCollection(int length)
 		{
 			var randomTrueFalseCollection = Enumerable.Range(0, length).Select(r =>_random.NextDouble() > 0.5);
 
-			var result = new
-
+			return randomTrueFalseCollection;
 		}
 	}
 }
