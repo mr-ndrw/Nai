@@ -22,11 +22,18 @@ namespace Genetic
 		/// <param name="selector">
 		///		Selector for the given population. 
 		/// </param>
-		public GeneticStructure(IEvaluationFunction function, SelectionMethod selector)
+		public GeneticStructure(int populationCardinality, IEvaluationFunction function, SelectionMethod selector)
 		{
 			Function = function;
 			_selector = selector;
+
+			populationCardinality = populationCardinality;
+			Population = new List<Genome>(populationCardinality);
+
+
 		}
+
+		public 
 
 		/// <summary>
 		///		Function which evaluates the genomes within the population.
@@ -37,5 +44,11 @@ namespace Genetic
 		///		Population of candidate solutions.
 		/// </summary>
 		public IEnumerable<Genome> Population { get; set; }
+
+
+		public void Evolve()
+		{
+			
+		}
 	}
 }
