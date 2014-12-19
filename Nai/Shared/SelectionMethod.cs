@@ -7,7 +7,7 @@ namespace Shared
 	/// </summary>
 	public abstract class SelectionMethod
 	{
-		private readonly IEvaluationFunction _fitnessFunction;
+		protected readonly IEvaluationFunction _fitnessFunction;
 
 		/// <summary>
 		///		Initializes an object with w fitness function which will be used throughout the selection process.
@@ -26,6 +26,6 @@ namespace Shared
 		/// <param name="candidateSolutions">
 		///		Collection of solutions on which a selection is performed.
 		/// </param>
-		public abstract void PickBestFitPopulation(IEnumerable<CandidateSolution> candidateSolutions);
+		public abstract void PickBestFitPopulation(List<CandidateSolution> candidateSolutions);
 	}
 }

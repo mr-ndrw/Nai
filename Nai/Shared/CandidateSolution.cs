@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared
 {
-	public abstract class CandidateSolution
+	public abstract class CandidateSolution : IEquatable<CandidateSolution>, IComparable<CandidateSolution>
 	{
 		protected CandidateSolution(string chromosome)
 		{
@@ -35,11 +35,42 @@ namespace Shared
 		/// </summary>
 		public double EvaluationResult { get; set; }
 
+		/// <summary>
+		///		Indicates whether the current object is equal to another object of the same type.
+		/// </summary>
+		/// <returns>
+		///		true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+		/// </returns>
+		/// <param name="other">
+		///		An object to compare with this object.
+		/// </param>
+		public bool Equals(CandidateSolution other)
+		{
+			if (other == null)
+			{
+				return false;
+			}
+
+			if (this.Solution.Count() != other.Solution.Count())
+			{
+				return false;
+			}
+
+			return !this.Solution.Except(other.Solution).Any() && !other.Solution.Except(this.Solution).Any();
+		}
 
 		/// <summary>
-		///		Normalized(i.e. we take the Evalution result and divide it by the total sum of fitnes values across all candidates evaluation result.
+		///		Compares the current object with another object of the same type.
 		/// </summary>
-		public double NormalizedEvaluationResult { get; set; }
-
+		/// <returns>
+		///		A value that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.Zero This object is equal to <paramref name="other"/>. Greater than zero This object is greater than <paramref name="other"/>. 
+		/// </returns>
+		/// <param name="other">
+		///		An object to compare with this object.
+		/// </param>
+		public int CompareTo(CandidateSolution other)
+		{
+			return other == null ? 1 : this.EvaluationResult.CompareTo(other.EvaluationResult);
+		}
 	}
 }

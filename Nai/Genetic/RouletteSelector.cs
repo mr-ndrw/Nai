@@ -13,7 +13,8 @@ namespace Genetic
 		/// <param name="fitnessFunction">
 		///		Fitness function.
 		/// </param>
-		public RouletteSelector(IEvaluationFunction fitnessFunction) : base(fitnessFunction)
+		public RouletteSelector(IEvaluationFunction fitnessFunction) 
+			: base(fitnessFunction)
 		{
 
 		}
@@ -24,31 +25,57 @@ namespace Genetic
 		/// <param name="candidateSolutions">
 		///		Collection of solutions on which a selection is performed.
 		/// </param>
-		public override void PickBestFitPopulation(IEnumerable<CandidateSolution> candidateSolutions)
+		public override void PickBestFitPopulation(List<CandidateSolution> candidateSolutions)
 		{
 			//	Initialize total population count.
 			var populationCount = candidateSolutions.Count();
-
+			//	Evaluate each candaidate solution.
+			candidateSolutions.ForEach(solution => _fitnessFunction.EvaluateGenome(solution));
+			//	Create a collection of normalized EvaluationValues.
+			//	Meaning that each solution is assigned a value which is the quotient of it's own fitness 
+			//	value and the total sum of fitness values.
+			//	That way the new sum of fitness will be equal to 1, and all underlying and composing fitness values will be in [0, 1] range.
+			var totalFitnessSum = candidateSolutions.Sum(candidateSolution => candidateSolution.EvaluationResult);
+			var normalizedFitnessValues =
+				candidateSolutions.Select(solution => (solution.EvaluationResult / totalFitnessSum)).ToList();
+			//	Sort the population descendingly.
+			candidateSolutions = (from solution in candidateSolutions
+			                     orderby solution descending
+			                     select solution).ToList();
 			//	Get a random array of doubles of length equal to population count.
-			var randomDoubles = RandomGenerator.GetRandomDoubles(populationCount);
+			var randomDoubles = RandomGenerator.GetRandomDoubles(populationCount).ToList();
+			//	Calculate the ANF - accumulated normalized fitness value for each solution.
+			//	Solution's ANF is the sum of it's own normalized fitness and the ones preceeding it.
+			var accumulatedNormalizedValues = new double[populationCount];
+			for (var solutionIndex = 0; solutionIndex < populationCount; solutionIndex++)
+			{
+				accumulatedNormalizedValues[solutionIndex] = normalizedFitnessValues[solutionIndex];
+				//	<= solutionIndex and then delete above line?
+				for (var subArrayIndex = 0; subArrayIndex < solutionIndex; subArrayIndex++)
+				{
+					accumulatedNormalizedValues[solutionIndex] += normalizedFitnessValues[subArrayIndex];
+				}
+			}
+			//	Iterate over the randomDoubles array and pick the solution that is greater than the current double.
+			//	Create new population collection.
+			var newPopulation = new List<CandidateSolution>(populationCount);
+			for (var doubleIndex = 0; doubleIndex < populationCount; doubleIndex++)
+			{
+				var currentRadnom = randomDoubles[doubleIndex];
+				for(var accNormalizedIndex = 0; accNormalizedIndex < populationCount; accNormalizedIndex++)
+				{
+					if (accumulatedNormalizedValues[accNormalizedIndex] > currentRadnom)
+					{
+						var solutionToAdd = candidateSolutions[accNormalizedIndex];
+						newPopulation.Add(solutionToAdd);
+					}
+				}
+			}
+			//	When done, subsitute the old solution with the new one.
+			candidateSolutions = newPopulation;
+			//	END
+		}//	/PickBestFitPopulation(List<CandidateSolution>)
 
-			//	Produce matchings values for each genome.
-			var matchingSums = GetMatchingSums();
-			var distro = Math.
-			throw new System.NotImplementedException();
-		}
-
-
-		/// <summary>
-		///		Produces an array of doubles which is a representative of the matching sums for the neuron population. 
-		/// </summary>
-		/// <returns>
-		///		An array of doubles which is a representative of the matching sums for the neuron population. 
-		/// </returns>
-		private IEnumerable<double> GetMatchingSums()
-		{
-			throw new NotImplementedException();
-		}
 	}
 
 }
