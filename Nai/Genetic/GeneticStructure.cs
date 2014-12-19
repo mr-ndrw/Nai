@@ -44,12 +44,6 @@ namespace Genetic
 		/// </summary>
 		public IEvaluationFunction Function { get; set; }
 
-		/// <summary>
-		///		Population of candidate solutions.
-		/// </summary>
-		public IEnumerable<Genome> Population { get; set; }
-
-
 		public void Evolve()
 		{
 			//	Initialize the population with random values inside their Solution (bool)array.
@@ -58,19 +52,24 @@ namespace Genetic
 
 			//	Loop until Termination Condition is met.
 			//	DO
-					//	Select the parents.
+			//	Select the parents.
 
-					//	Recombine the parents - produce offsprings.
+			//	Recombine the parents - produce offsprings.
 
-					//	Mutate offsprings.
+			//	Mutate offsprings.
 
-					//	Evaluate new offsprings.
+			//	Evaluate new offsprings.
 
-					//	Select individual for the next epooch
+			//	Select individual for the next epooch
 
 			//	OD	--	Rinse, repeat...
 
 			//	CONSIDER: 
 		}
+
+		/// <summary>
+		///		Population of candidate solutions.
+		/// </summary>
+		public IEnumerable<Genome> Population { get; set; }
 	}
 }

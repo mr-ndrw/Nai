@@ -34,5 +34,12 @@ namespace Shared
 		///		Result of the evaluation by the funtion.
 		/// </summary>
 		public double EvaluationResult { get; set; }
+
+
+		/// <summary>
+		///		Normalized(i.e. we take the Evalution result and divide it by the total sum of fitnes values across all candidates evaluation result.
+		/// </summary>
+		public double NormalizedEvaluationResult { get; set; }
+
 	}
 }

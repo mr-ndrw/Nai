@@ -3,7 +3,7 @@
 namespace Shared
 {
 	/// <summary>
-	///		Defines a contract for all inherting classes to realize in order to become a selector in a genetic population.
+	///		Serves as a base class for classes which want to become a selector in a genetic population.
 	/// </summary>
 	public abstract class SelectionMethod
 	{

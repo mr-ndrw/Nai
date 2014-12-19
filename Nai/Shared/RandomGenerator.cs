@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared
 {
-	public class RandomGenerator
+	public static class RandomGenerator
 	{
 		private static Random _random;
 
@@ -22,11 +22,21 @@ namespace Shared
 		/// <param name="length">
 		///		Count of the collection.
 		/// </param>
-		public IEnumerable<bool> GetRandomBoolCollection(int length)
+		public static IEnumerable<bool> GetRandomBoolCollection(int length)
 		{
 			var randomTrueFalseCollection = Enumerable.Range(0, length).Select(r =>_random.NextDouble() > 0.5);
 
 			return randomTrueFalseCollection;
+		}
+
+		/// <summary>
+		///		Returns an arbitrarily-sized collection of random doubles.
+		/// </summary>
+		/// <param name="length"></param>
+		/// <returns></returns>
+		public static IEnumerable<double> GetRandomDoubles(int length)
+		{
+			return Enumerable.Range(0, length).Select(rand => _random.NextDouble());
 		}
 	}
 }
