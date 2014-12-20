@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
+using Shared;
 
 namespace Genetic
 {
@@ -56,6 +57,18 @@ namespace Genetic
 		{
 			//	
 		}
+
+		/// <summary>
+		///		
+		/// </summary>
+		/// <param name="population">
+		///		
+		/// </param>
+		public void ProduceOffsprings(List<CandidateSolution> population)
+		{
+			
+		}
+
 
 	}
 }

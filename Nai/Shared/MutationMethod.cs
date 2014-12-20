@@ -12,19 +12,20 @@ namespace Shared
 	public abstract class MutationMethod
 	{
 		/// <summary>
-		///		Initializes the object with a propability value.
+		///		Initializes the object with a Probability value.
 		/// </summary>
-		/// <param name="propability"></param>
-		protected MutationMethod(double propability)
+		/// <param name="probability">
+		/// </param>
+		protected MutationMethod(double probability)
 		{
-			Propability = propability;
+			this.Probability = probability;
 		}
 
 
 		/// <summary>
-		///		Propability of the occurence of a mutation.
+		///		Probability of the occurence of a mutation.
 		/// </summary>
-		public double Propability { get; private set; }
+		public double Probability { get; private set; }
 
 		/// <summary>
 		///		Pefroms a mutation only on one CandidateSolution.
