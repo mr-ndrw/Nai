@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Shared;
 
 namespace Genetic
 {
+	/// <summary>
+	///		Allows to perform roulette selection algorithm on a population.
+	/// </summary>
 	public class RouletteSelector : SelectionMethod
 	{
 		/// <summary>
@@ -16,9 +18,7 @@ namespace Genetic
 		public RouletteSelector(IEvaluationFunction fitnessFunction) 
 			: base(fitnessFunction)
 		{
-
 		}
-
 		/// <summary>
 		///		Performs the analysis of the population and replaces it with a new one chosen with the roulette selection strategy.
 		/// </summary>

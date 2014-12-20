@@ -12,21 +12,24 @@ namespace Genetic
 	/// </summary>
 	public class Genome : CandidateSolution
 	{
-		public Genome(string chromosome) : base(chromosome)
+		/// <summary>
+		///		Initializes an object with a 0's and 1's string, having previously extracted data and check for exceptions.
+		/// </summary>
+		/// <param name="zerosOnesString">
+		///		String compromised of 0's and 1's.
+		/// </param>
+		public Genome(string zerosOnesString) : base(zerosOnesString)
 		{
-			var checkArray = chromosome.ToCharArray();
-
-			if (checkArray.Any(c => c.CompareTo('1') != 0 || c.CompareTo('0') != 0))
-			{
-				throw new Exception("Passed string is not compromised of only 1's and 0's.");
-			}
-
-			Solution = checkArray.Select(Convert.ToBoolean);
 		}
 
-		public Genome(IEnumerable<bool> chromosome) : base(chromosome)
+		/// <summary>
+		///		Initializes and object with a collection of bools.
+		/// </summary>
+		/// <param name="boolCollection">
+		///		Collection of bools.
+		/// </param>
+		public Genome(IEnumerable<bool> boolCollection) : base(boolCollection)
 		{
-			Solution = chromosome;
 		}
 	}
 }

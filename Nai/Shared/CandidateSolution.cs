@@ -6,11 +6,20 @@ using System.Threading.Tasks;
 
 namespace Shared
 {
+	/// <summary>
+	///		Base class for classes representing solutions to the given problem.
+	/// </summary>
 	public abstract class CandidateSolution : IEquatable<CandidateSolution>, IComparable<CandidateSolution>
 	{
-		protected CandidateSolution(string chromosome)
+		/// <summary>
+		///		Initializes an object with a 0's and 1's string, having previously extracted data and check for exceptions.
+		/// </summary>
+		/// <param name="zerosOnesString">
+		///		String compromised of 0's and 1's.
+		/// </param>
+		protected CandidateSolution(string zerosOnesString)
 		{
-			var checkArray = chromosome.ToCharArray();
+			var checkArray = zerosOnesString.ToCharArray();
 
 			if (checkArray.Any(c => c.CompareTo('1') != 0 || c.CompareTo('0') != 0))
 			{
@@ -20,9 +29,15 @@ namespace Shared
 			Solution = checkArray.Select(Convert.ToBoolean);
 		}
 
-		protected CandidateSolution(IEnumerable<bool> chromosome)
+		/// <summary>
+		///		Initializes and object with a collection of bools.
+		/// </summary>
+		/// <param name="boolCollection">
+		///		Collection of bools.
+		/// </param>
+		protected CandidateSolution(IEnumerable<bool> boolCollection)
 		{
-			Solution = chromosome;
+			Solution = boolCollection;
 		}
 
 		/// <summary>

@@ -18,6 +18,14 @@ namespace Genetic
 		/// </summary>
 		private readonly MutationMethod _mutator;
 		/// <summary>
+		///		Function which evaluates the genomes within the population.
+		/// </summary>
+		private readonly IEvaluationFunction _function;
+		/// <summary>
+		///		Performs recombination duty on the population.
+		/// </summary>
+		private readonly Recombinator _recombinator;
+		/// <summary>
 		///		Length of the individual genome.
 		/// </summary>
 		private readonly int _genomeLength;
@@ -25,6 +33,7 @@ namespace Genetic
 		///		Total count of genomes within population.
 		/// </summary>
 		private readonly int _populationCount ;
+		
 		///   <summary>
 		///  	Creates an GeneticStructure with global function evaluating given members and a selection function 
 		///   </summary>
@@ -40,7 +49,7 @@ namespace Genetic
 		/// <param name="mutator">
 		///		Mutator for the given problem.
 		/// </param>
-		public GeneticStructure(int populationCount, IEvaluationFunction function, SelectionMethod selector, MutationMethod mutator, int genomeLength)
+		public GeneticStructure(int populationCount, IEvaluationFunction function, SelectionMethod selector, MutationMethod mutator, int genomeLength, Recombinator recombinator)
 		{
 			if (populationCount <= 0)
 			{
@@ -49,6 +58,15 @@ namespace Genetic
 			if (genomeLength <= 0)
 			{
 				throw new ArgumentException("Genome length must not be equal or less than 0.");
+			}
+			if (recombinator == null)
+			{
+				throw new ArgumentNullException("A recombinator must be specified.");
+			}
+			//	Assert that recombinator's crossing points do not exceed the genome length.
+			if (genomeLength >= recombinator.MaximumValue)
+			{
+				throw new ArgumentOutOfRangeException("recombinator's crossover points cannot exceed or be equal to the length of the genome.");
 			}
 			if (function == null)
 			{
@@ -62,15 +80,15 @@ namespace Genetic
 			{
 				throw new ArgumentNullException("A mutator must be specified.");
 			}
-			Function = function;
-			_selector = selector;
-			_mutator = mutator;
-			_genomeLength = genomeLength;
-			_populationCount = populationCount;
-			_genomeLength = genomeLength;
-			Population = new List<Genome>(populationCount);
+			this._function = function;
+			this._selector = selector;
+			this._mutator = mutator;
+			this._genomeLength = genomeLength;
+			this._recombinator = recombinator;
+			this._populationCount = populationCount;
+			this._genomeLength = genomeLength;
+			this.Population = new List<CandidateSolution>(populationCount);
 		}
-
 		/// <summary>
 		///		Total number of species within the population.
 		/// </summary>
@@ -78,7 +96,6 @@ namespace Genetic
 		{
 			get { return _populationCount; }
 		}
-
 		/// <summary>
 		///		Length of the individual genome.
 		/// </summary>
@@ -87,13 +104,9 @@ namespace Genetic
 			get { return _genomeLength; }
 		}
 		/// <summary>
-		///		Function which evaluates the genomes within the population.
-		/// </summary>
-		public IEvaluationFunction Function { get; set; }
-		/// <summary>
 		///		Population of candidate solutions.
 		/// </summary>
-		public List<CandidateSolution> Population { get; set; }
+		public List<CandidateSolution> Population { get; private set; }
 		/// <summary>
 		///		
 		/// </summary>
@@ -119,7 +132,15 @@ namespace Genetic
 
 			//	CONSIDER: 
 		}
-
+		/// <summary>
+		///		Returns a randomized collection(of parametrized count) of Genomes of structure-global length.
+		/// </summary>
+		/// <param name="populationCount">
+		///		Length of the population collection.
+		/// </param>
+		/// <returns>
+		///		Randomized collection of Genomes.
+		/// </returns>
 		private List<Genome> GetRandomizedCandidateSolutions(int populationCount)
 		{
 			var result = Enumerable.Range(0, populationCount)
