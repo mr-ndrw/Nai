@@ -20,7 +20,7 @@ namespace Genetic
 		}
 
 		/// <summary>
-		///		Performs the analysis of the population and modifies it according to the taken strategy.
+		///		Performs the analysis of the population and replaces it with a new one chosen with the roulette selection strategy.
 		/// </summary>
 		/// <param name="candidateSolutions">
 		///		Collection of solutions on which a selection is performed.
@@ -37,13 +37,13 @@ namespace Genetic
 			//	That way the new sum of fitness will be equal to 1, and all underlying and composing fitness values will be in [0, 1] range.
 			var totalFitnessSum = candidateSolutions.Sum(candidateSolution => candidateSolution.EvaluationResult);
 			var normalizedFitnessValues =
-				candidateSolutions.Select(solution => (solution.EvaluationResult / totalFitnessSum)).ToList();
+				candidateSolutions.Select(solution => (solution.EvaluationResult / totalFitnessSum)).ToArray();
 			//	Sort the population descendingly.
 			candidateSolutions = (from solution in candidateSolutions
 			                     orderby solution descending
 			                     select solution).ToList();
 			//	Get a random array of doubles of length equal to population count.
-			var randomDoubles = RandomGenerator.GetRandomDoubles(populationCount).ToList();
+			var randomDoubles = RandomGenerator.GetRandomDoubles(populationCount).ToArray();
 			//	Calculate the ANF - accumulated normalized fitness value for each solution.
 			//	Solution's ANF is the sum of it's own normalized fitness and the ones preceeding it.
 			var accumulatedNormalizedValues = new double[populationCount];
@@ -72,7 +72,7 @@ namespace Genetic
 				}
 			}
 			//	When done, subsitute the old solution with the new one.
-			candidateSolutions = newPopulation;
+			candidateSolutions = newPopulation; 
 			//	END
 		}//	/PickBestFitPopulation(List<CandidateSolution>)
 
