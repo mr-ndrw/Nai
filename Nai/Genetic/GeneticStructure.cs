@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GeneticOperators.Crossovers;
 using Shared;
+using Shared.Bases;
+using Shared.InterfacesAndBases;
+
 
 namespace Genetic
 {
 	/// <summary>
 	///     Main module of the genetic algorithm. Contains genetic population and performs operations on it.
-	/// </summary>
+	/// </summary>	
 	public sealed class GeneticStructure
 	{
 		#region Private Fields
@@ -25,7 +29,7 @@ namespace Genetic
 		/// <summary>
 		///     Mutator method.
 		/// </summary>
-		private readonly MutationMethod _mutator;
+		private readonly IMutator _mutator;
 
 		/// <summary>
 		///     Total count of genomes within population.
@@ -40,12 +44,12 @@ namespace Genetic
 		/// <summary>
 		///     Selector method for the <see cref="Population" />.
 		/// </summary>
-		private readonly SelectionMethod _selector;
+		private readonly Selector _selector;
 
 		/// <summary>
 		///     Provides the answer whether the population is satisifiable.
 		/// </summary>
-		private readonly ITerminationCondition _terminator;
+		private readonly ITerminator _terminator;
 
 		#endregion
 
@@ -75,9 +79,9 @@ namespace Genetic
 		/// <param name="genomeLength">
 		///     Length of indiviudal genome.
 		/// </param>
-		public GeneticStructure(int populationCount, IEvaluationFunction function, SelectionMethod selector,
-		                        MutationMethod mutator, int genomeLength, Recombinator recombinator,
-		                        ITerminationCondition terminator)
+		public GeneticStructure(int populationCount, IEvaluationFunction function, Selector selector,
+		                        IMutator mutator, int genomeLength, Recombinator recombinator,
+		                        ITerminator terminator)
 		{
 			if (populationCount <= 0)
 			{

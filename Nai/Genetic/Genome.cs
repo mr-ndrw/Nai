@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Shared;
+using Shared.Bases;
+using Shared.InterfacesAndBases;
 
 namespace Genetic
 {

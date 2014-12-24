@@ -1,4 +1,6 @@
-﻿namespace Shared
+﻿using Shared.Bases;
+
+namespace Shared.InterfacesAndBases
 {
 	/// <summary>
 	///		Provides means of evaluating units in the solution space.

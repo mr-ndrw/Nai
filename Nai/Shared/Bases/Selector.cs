@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Shared.InterfacesAndBases;
 
-namespace Shared
+namespace Shared.Bases
 {
 	/// <summary>
 	///		Serves as a base class for classes which want to become a selector in a genetic population.
 	/// </summary>
-	public abstract class SelectionMethod
+	public abstract class Selector
 	{
 		protected readonly IEvaluationFunction _fitnessFunction;
 
@@ -15,17 +16,17 @@ namespace Shared
 		/// <param name="fitnessFunction">
 		///		Fitness function.
 		/// </param>
-		protected SelectionMethod(IEvaluationFunction fitnessFunction)
+		protected Selector(IEvaluationFunction fitnessFunction)
 		{
-			_fitnessFunction = fitnessFunction;
+			this._fitnessFunction = fitnessFunction;
 		}
 
-		/// <summary>
-		///		Performs the analysis of the population and modifies it according to the taken strategy.
-		/// </summary>
-		/// <param name="candidateSolutions">
-		///		Collection of solutions on which a selection is performed.
-		/// </param>
+		///  <summary>
+		/// 		Performs the analysis of the population and modifies it according to the taken strategy.
+		///  </summary>
+		///  <param name="candidateSolutions">
+		/// 		Collection of solutions on which a selection is performed.
+		///  </param>
 		public abstract void PickBestFitPopulation(List<CandidateSolution> candidateSolutions);
 	}
 }

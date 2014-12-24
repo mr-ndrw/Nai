@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Shared;
+using Shared.Bases;
+using Shared.InterfacesAndBases;
 
 namespace Genetic
 {
 	/// <summary>
 	///		Allows to perform roulette selection algorithm on a population.
 	/// </summary>
-	public class RouletteSelector : SelectionMethod
+	public class RouletteSelector : Selector
 	{
 		/// <summary>
 		///		Initializes an object with a fitness function which will be used throughout the selection process.
@@ -64,11 +66,9 @@ namespace Genetic
 				var currentRadnom = randomDoubles[doubleIndex];
 				for(var accNormalizedIndex = 0; accNormalizedIndex < populationCount; accNormalizedIndex++)
 				{
-					if (accumulatedNormalizedValues[accNormalizedIndex] > currentRadnom)
-					{
-						var solutionToAdd = candidateSolutions[accNormalizedIndex];
-						newPopulation.Add(solutionToAdd);
-					}
+					if (!(accumulatedNormalizedValues[accNormalizedIndex] > currentRadnom)) continue;
+					var solutionToAdd = candidateSolutions[accNormalizedIndex];
+					newPopulation.Add(solutionToAdd);
 				}
 			}
 			//	When done, subsitute the old solution with the new one.

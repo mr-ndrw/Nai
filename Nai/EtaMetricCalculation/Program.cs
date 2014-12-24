@@ -48,7 +48,7 @@ namespace EtaMetricCalculation
 
 				//	numberOfRuns is a number of how many full Eta cycles we will complete and gather data from.
 				//	The larger this value is, the more accurate our final data will be.
-				const int numberOfRuns = 100;
+				const int numberOfRuns = 1000;
 
 				//	etaCycles is a value which is used to determine how many cycles of learning process on each training set
 				//	will be completed per each step of Eta
@@ -203,7 +203,7 @@ namespace EtaMetricCalculation
 
 				//	Save it.
 				var binaryData = xlPackage.GetAsByteArray();
-				File.WriteAllBytes(@"C:\Nai\Nai.TaskOne100runs3hiddenneruons.xlsx", binaryData);
+				File.WriteAllBytes(@"C:\Nai\final\Nai.TaskOneFinal.xlsx", binaryData);
 			}
 
 			//	Done.

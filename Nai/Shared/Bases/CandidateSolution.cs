@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Shared
+namespace Shared.Bases
 {
 	/// <summary>
 	///		Base class for classes representing solutions to the given problem.
@@ -24,7 +24,7 @@ namespace Shared
 				throw new Exception("Passed string is not compromised of only 1's and 0's.");
 			}
 
-			Solution = checkArray.Select(Convert.ToBoolean);
+			this.Solution = checkArray.Select(Convert.ToBoolean);
 		}
 
 		/// <summary>
@@ -35,7 +35,7 @@ namespace Shared
 		/// </param>
 		protected CandidateSolution(IEnumerable<bool> boolCollection)
 		{
-			Solution = boolCollection;
+			this.Solution = boolCollection;
 		}
 
 		/// <summary>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Shared;
+using Shared.Bases;
 
-namespace Genetic
+namespace GeneticOperators.Crossovers
 {
 	/// <summary>
 	///		Gives acces to solution recombination methods.
@@ -25,8 +25,8 @@ namespace Genetic
 		/// </param>
 		protected Recombinator(params int[] crossoverPoints)
 		{
-			_crossoverPoints = crossoverPoints;
-			Array.Sort(_crossoverPoints);
+			this._crossoverPoints = crossoverPoints;
+			Array.Sort(this._crossoverPoints);
 		}
 		/// <summary>
 		///		Return the maximum value present in the array. 
@@ -38,9 +38,9 @@ namespace Genetic
 		{
 			get
 			{
-				if (_crossoverPoints == null || _crossoverPoints.Length == 0)
+				if (this._crossoverPoints == null || this._crossoverPoints.Length == 0)
 					return 0;
-				return _crossoverPoints[_crossoverPoints.Length-1];
+				return this._crossoverPoints[this._crossoverPoints.Length-1];
 			}
 		}
 
@@ -53,13 +53,13 @@ namespace Genetic
 		/// <param name="secondParent">
 		///		Second genome to perform Crossover on.
 		/// </param>
-		public void Crossover(Genome firstParent, Genome secondParent)
+		public void Crossover(CandidateSolution firstParent, CandidateSolution secondParent)
 		{
 			//	
 		}
 
 		/// <summary>
-		///		
+		///		Analyzes 
 		/// </summary>
 		/// <param name="population">
 		///		
