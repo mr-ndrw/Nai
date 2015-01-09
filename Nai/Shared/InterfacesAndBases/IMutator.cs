@@ -9,14 +9,6 @@ namespace Shared.InterfacesAndBases
 	public interface IMutator
 	{
 		/// <summary>
-		///		Pefroms a mutation only on one CandidateSolution.
-		/// </summary>
-		/// <param name="solutionToMutate">
-		///		Solution to mutate.
-		/// </param>
-		void Mutate(CandidateSolution solutionToMutate);
-
-		/// <summary>
 		///		Performs a mutation on the whole popluation of solutions.
 		/// </summary>
 		/// <param name="populationToMutate">
