@@ -46,6 +46,8 @@
     <Compile Include="Bases\Selector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InterfacesAndBases\ITerminator.cs" />
+    <Compile Include="Utils\ListHelper.cs" />
+    <Compile Include="Utils\Pair.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functions\" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Shared.Bases;
 
 namespace GeneticOperators.Crossovers
@@ -66,7 +67,15 @@ namespace GeneticOperators.Crossovers
 		/// </param>
 		public void ProduceOffsprings(List<CandidateSolution> population)
 		{
-			
+			//	Generate a list of random integers ranging from 0 to populationCount if it is even, if not then generate up to populationCount - 1.
+			//	Next we are going to scramble the elements inside the list.
+			var indexList = new List<int>();
+			for (var i = 0; i < population.Count - population.Count%2; i++)
+			{
+				indexList.Add(i);
+			}
+
+
 		}
 
 

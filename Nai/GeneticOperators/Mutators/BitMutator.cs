@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared;
 using Shared.Bases;
 using Shared.InterfacesAndBases;
+using Shared.Utils;
 
 namespace GeneticOperators.Mutators
 {
@@ -58,17 +58,6 @@ namespace GeneticOperators.Mutators
 		}
 
 		/// <summary>
-		///		Pefroms a mutation only on one CandidateSolution.
-		/// </summary>
-		/// <param name="solutionToMutate">
-		///		Solution to mutate.
-		/// </param>
-		public void Mutate(CandidateSolution solutionToMutate)
-		{
-			throw new NotImplementedException();
-		}
-
-		/// <summary>
 		///		Performs a mutation on the whole popluation of solutions.
 		/// </summary>
 		/// <param name="populationToMutate">
@@ -76,7 +65,23 @@ namespace GeneticOperators.Mutators
 		/// </param>
 		public void Mutate(IEnumerable<CandidateSolution> populationToMutate)
 		{
-			throw new NotImplementedException();
+			//	calculate the number of bits to mutate
+			var countOfBitsToMutate = (int) Math.Floor(this._bitMutationChance * populationToMutate.Count());
+
+			//	get countOfBitsToMutate pairs of random numbers with the first number in pair being constrained by the population count
+			//	and the second one by the genome length.
+			var randomPairs = Enumerable.Range(0, countOfBitsToMutate)
+			                            .Select(
+				                            pair => new Pair<int>(RandomGenerator.GetRandomInt(), RandomGenerator.GetRandomInt()));
+
+			//	iterate over the generated pairs and mutate(change the value to the opposite one) the bits based on the current pair's indices.
+			foreach (var pair in randomPairs)
+			{
+				var bit = populationToMutate.ElementAt(pair.X)
+				                            .Solution.ElementAt(pair.Y);
+				bit = !bit;
+
+			}
 		}
 	}
 }

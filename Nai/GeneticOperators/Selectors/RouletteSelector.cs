@@ -31,8 +31,10 @@ namespace Genetic
 		{
 			//	Initialize total population count.
 			var populationCount = candidateSolutions.Count();
+
 			//	Evaluate each candaidate solution.
-			candidateSolutions.ForEach(solution => _fitnessFunction.EvaluateGenome(solution));
+			candidateSolutions.ForEach(solution => this._fitnessFunction.EvaluateGenome(solution));
+
 			//	Create a collection of normalized EvaluationValues.
 			//	Meaning that each solution is assigned a value which is the quotient of it's own fitness 
 			//	value and the total sum of fitness values.
@@ -40,15 +42,19 @@ namespace Genetic
 			var totalFitnessSum = candidateSolutions.Sum(candidateSolution => candidateSolution.EvaluationResult);
 			var normalizedFitnessValues =
 				candidateSolutions.Select(solution => (solution.EvaluationResult / totalFitnessSum)).ToArray();
+
 			//	Sort the population descendingly.
 			candidateSolutions = (from solution in candidateSolutions
 			                     orderby solution descending
 			                     select solution).ToList();
+
 			//	Get a random array of doubles of length equal to population count.
 			var randomDoubles = RandomGenerator.GetRandomDoubles(populationCount).ToArray();
+
 			//	Calculate the ANF - accumulated normalized fitness value for each solution.
 			//	Solution's ANF is the sum of it's own normalized fitness and the ones preceeding it.
 			var accumulatedNormalizedValues = new double[populationCount];
+
 			for (var solutionIndex = 0; solutionIndex < populationCount; solutionIndex++)
 			{
 				accumulatedNormalizedValues[solutionIndex] = normalizedFitnessValues[solutionIndex];
@@ -58,6 +64,7 @@ namespace Genetic
 					accumulatedNormalizedValues[solutionIndex] += normalizedFitnessValues[subArrayIndex];
 				}
 			}
+
 			//	Iterate over the randomDoubles array and pick the solution that is greater than the current double.
 			//	Create new population collection.
 			var newPopulation = new List<CandidateSolution>(populationCount);

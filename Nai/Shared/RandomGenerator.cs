@@ -38,5 +38,48 @@ namespace Shared
 		{
 			return Enumerable.Range(0, length).Select(rand => _random.NextDouble());
 		}
+
+		/// <summary>
+		///		Returns a nonnegative number.
+		/// </summary>
+		/// <returns>
+		///		Nonnegative number.
+		/// </returns>
+		public static int GetRandomInt()
+		{
+			return _random.Next();
+		}
+
+		/// <summary>
+		///		Returns a nonnegative number less than the specified value.
+		/// </summary>
+		/// <param name="maxValue">
+		///		Upper bound for the randomized value.
+		/// </param>
+		/// <returns>
+		///		Nonnegative number.
+		/// </returns>
+		public static int GetRandomInt(int maxValue)
+		{
+			return _random.Next(maxValue);
+		}
+
+
+		/// <summary>
+		///		Returns a random number from the specified range.
+		/// </summary>
+		/// <param name="minValue">
+		///		Lower, inclusive bound.
+		/// </param>
+		/// <param name="maxValue">
+		///		Upper, exclusive bound.
+		/// </param>
+		/// <returns>
+		///		Random number.
+		/// </returns>
+		public static int GetRandomInt(int minValue, int maxValue)
+		{
+			return _random.Next(minValue, maxValue);
+		}
 	}
 }
