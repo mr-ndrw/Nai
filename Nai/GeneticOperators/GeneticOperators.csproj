@@ -40,9 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crossovers\OnePointCrossover.cs" />
     <Compile Include="Mutators\BitMutator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Crossovers\Recombinator.cs" />
     <Compile Include="Selectors\RouletteSelector.cs" />
     <Compile Include="Selectors\TournamentSelector.cs" />
   </ItemGroup>

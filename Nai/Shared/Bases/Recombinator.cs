@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Shared.Bases;
+﻿using System.Collections.Generic;
+using Shared.Utils;
 
-namespace GeneticOperators.Crossovers
+namespace Shared.Bases
 {
 	/// <summary>
 	///		Gives acces to solution recombination methods.
 	/// </summary>
-	public class Recombinator
+	public abstract class Recombinator
 	{
 		/// <summary>
 		///		Points at which to perform a crossover.
@@ -16,33 +14,17 @@ namespace GeneticOperators.Crossovers
 		/// <remarks>
 		///		If there is only one point present in the array, then the crossover will be performed only at that point.
 		/// </remarks>
-		private readonly int[] _crossoverPoints;
+		private readonly int  _crossoverPoint;
 
 		/// <summary>
 		///		Initializes the object of the Recombinator object with values at which it should peform crossovers on Genomes.
 		/// </summary>
-		/// <param name="crossoverPoints">
+		/// <param name="crossoverPoint">
 		///		Points to perform crossover.
 		/// </param>
-		protected Recombinator(params int[] crossoverPoints)
+		protected Recombinator(int crossoverPoint)
 		{
-			this._crossoverPoints = crossoverPoints;
-			Array.Sort(this._crossoverPoints);
-		}
-		/// <summary>
-		///		Return the maximum value present in the array. 
-		/// </summary>
-		/// <remarks>
-		///		After it's been sorted during the initaliziation, it should be present on the last position in the array.
-		/// </remarks>
-		public int MaximumValue
-		{
-			get
-			{
-				if (this._crossoverPoints == null || this._crossoverPoints.Length == 0)
-					return 0;
-				return this._crossoverPoints[this._crossoverPoints.Length-1];
-			}
+			this._crossoverPoint = crossoverPoint;
 		}
 
 		/// <summary>
@@ -54,10 +36,15 @@ namespace GeneticOperators.Crossovers
 		/// <param name="secondParent">
 		///		Second genome to perform Crossover on.
 		/// </param>
-		public void Crossover(CandidateSolution firstParent, CandidateSolution secondParent)
-		{
-			//	
-		}
+		public abstract void Crossover(CandidateSolution firstParent, CandidateSolution secondParent);
+
+		///  <summary>
+		/// 		Peforms a Crossover on two parent genomes and subsititutes them for their children.
+		///  </summary>
+		/// <param name="solutionPair">
+		///		Pair to perform a crossover on.
+		/// </param>
+		public abstract void Crossover(Pair<CandidateSolution> solutionPair);
 
 		/// <summary>
 		///		Analyzes 
@@ -75,7 +62,21 @@ namespace GeneticOperators.Crossovers
 				indexList.Add(i);
 			}
 
+			indexList.Shuffle();
+			
+			//	With list shuffled, we will now take each next 2 elements, create a pair out of them and insert them into a list containging these pairs.
 
+			var pairList = new List<Pair<CandidateSolution>>();
+			for (int i = 1; i < indexList.Count; i = i + 2)
+			{
+				var firstSolution = population[indexList[i - 1]];
+				var secondSolution = population[indexList[i]];
+
+				var pair = new Pair<CandidateSolution>(firstSolution, secondSolution);
+				pairList.Add(pair);
+			}
+			//	Iterate over the pair list and perform on each pair an operation of recombination
+			pairList.ForEach(this.Crossover);
 		}
 
 

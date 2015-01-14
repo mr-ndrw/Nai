@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bases\CandidateSolution.cs" />
+    <Compile Include="Bases\Recombinator.cs" />
     <Compile Include="InterfacesAndBases\IEvaluationFunction.cs" />
     <Compile Include="InterfacesAndBases\IMutator.cs" />
     <Compile Include="RandomGenerator.cs" />

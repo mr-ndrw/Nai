@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GeneticOperators.Crossovers;
 using Shared;
 using Shared.Bases;
 using Shared.InterfacesAndBases;
@@ -96,11 +95,6 @@ namespace Genetic
 				throw new ArgumentNullException("recombinator");
 			}
 			//	Assert that recombinator's crossing points do not exceed the genome length.
-			if (genomeLength >= recombinator.MaximumValue)
-			{
-				throw new ArgumentOutOfRangeException(
-					"Recombinator's crossover points cannot exceed or be equal to the length of the genome.");
-			}
 			if (function == null)
 			{
 				throw new ArgumentNullException("function");

@@ -1,5 +1,5 @@
 ﻿/*	
- *	Project Name:	Nai Project - Neural Network.
+ *	Project Name:	Nai Project - Genetic and SA Algorithms comparison.
  *	Author:			Andrzej Torski
  *	Index:			s10415
  */
