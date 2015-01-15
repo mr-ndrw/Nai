@@ -5,7 +5,7 @@ using Shared.InterfacesAndBases;
 namespace GeneticOperators.Terminators
 {
 	/// <summary>
-	///		
+	///		Exposes a method for epoch number based termination.	
 	/// </summary>
 	public class EpochCountTerminator : ITerminator
 	{

@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Bases\CandidateSolution.cs" />
     <Compile Include="Bases\Recombinator.cs" />
+    <Compile Include="GraphRelated\Graph.cs" />
+    <Compile Include="GraphRelated\Vertex.cs" />
     <Compile Include="InterfacesAndBases\IElitistStrategy.cs" />
     <Compile Include="InterfacesAndBases\IEvaluationFunction.cs" />
     <Compile Include="InterfacesAndBases\IMutator.cs" />
