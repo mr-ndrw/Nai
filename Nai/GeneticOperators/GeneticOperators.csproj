@@ -41,10 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crossovers\OnePointCrossover.cs" />
+    <Compile Include="ElitistStrategies\BestSolutionElitist.cs" />
+    <Compile Include="ElitistStrategies\NoElitist.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.MaxBy.cs" />
     <Compile Include="Mutators\BitMutator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selectors\RouletteSelector.cs" />
     <Compile Include="Selectors\TournamentSelector.cs" />
+    <Compile Include="Terminators\EpochCountTerminator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj">
@@ -53,6 +57,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

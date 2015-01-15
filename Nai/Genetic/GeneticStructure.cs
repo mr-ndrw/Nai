@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using Shared;
 using Shared.Bases;
 using Shared.InterfacesAndBases;
@@ -41,6 +42,11 @@ namespace Genetic
 		private readonly Recombinator _recombinator;
 
 		/// <summary>
+		///		Strategy for picking the best solution(s) in the space during the evaluation.
+		/// </summary>
+		private readonly IElitistStrategy _elitistStrategy;
+
+		/// <summary>
 		///     Selector method for the <see cref="Population" />.
 		/// </summary>
 		private readonly Selector _selector;
@@ -78,44 +84,26 @@ namespace Genetic
 		/// <param name="genomeLength">
 		///     Length of indiviudal genome.
 		/// </param>
-		public GeneticStructure(int populationCount, IEvaluationFunction function, Selector selector,
-		                        IMutator mutator, int genomeLength, Recombinator recombinator,
+		/// <param name="elitistStrategy"></param>
+		public GeneticStructure(int populationCount, int genomeLength, IEvaluationFunction function, Selector selector,
+		                        IMutator mutator, Recombinator recombinator, IElitistStrategy elitistStrategy,
 		                        ITerminator terminator)
 		{
-			if (populationCount <= 0)
-			{
-				throw new ArgumentException(string.Format(populationCount.ToString()));
-			}
-			if (genomeLength <= 0)
-			{
-				throw new ArgumentException(genomeLength.ToString());
-			}
-			if (recombinator == null)
-			{
-				throw new ArgumentNullException("recombinator");
-			}
-			//	Assert that recombinator's crossing points do not exceed the genome length.
-			if (function == null)
-			{
-				throw new ArgumentNullException("function");
-			}
-			if (selector == null)
-			{
-				throw new ArgumentNullException("selector");
-			}
-			if (mutator == null)
-			{
-				throw new ArgumentNullException("mutator");
-			}
-			if (terminator == null)
-			{
-				throw new ArgumentNullException("terminator");
-			}
+			if (populationCount <= 0) throw new ArgumentException(string.Format(populationCount.ToString()));
+			if (genomeLength <= 0) throw new ArgumentException(genomeLength.ToString());
+			if (recombinator == null) throw new ArgumentNullException("recombinator");
+			if (elitistStrategy == null) throw new ArgumentNullException("elitistStrategy");
+			if (function == null) throw new ArgumentNullException("function");
+			if (selector == null) throw new ArgumentNullException("selector");
+			if (mutator == null) throw new ArgumentNullException("mutator");
+			if (terminator == null) throw new ArgumentNullException("terminator");
+
 			this._function = function;
 			this._selector = selector;
 			this._mutator = mutator;
 			this._genomeLength = genomeLength;
 			this._recombinator = recombinator;
+			this._elitistStrategy = elitistStrategy;
 			this._terminator = terminator;
 			this._populationCount = populationCount;
 			this._genomeLength = genomeLength;
@@ -154,7 +142,7 @@ namespace Genetic
 		/// <summary>
 		///     Perfoms genetic algorithm on the population.
 		/// </summary>
-		public void Evolve()
+		public CandidateSolution Evolve()
 		{
 			//	Initialize the population with random values inside their Solution (bool)array.
 			this.Population.AddRange(this.GetRandomizedCandidateSolutions(this._populationCount));
@@ -162,6 +150,8 @@ namespace Genetic
 			//	DO
 			while (!this._terminator.IsTerminationConditionMet(this.Population))
 			{
+				//	Select the best solutions for safekeeping, therefore not allowing it be lost amidst the evolution process.
+				this._elitistStrategy.PickBest(this.Population);
 				//	Select the parents AND
 				//	Perform an evaluation of each candidate solution in the Population.
 				this._selector.PickBestFitPopulation(this.Population);
@@ -172,7 +162,12 @@ namespace Genetic
 			}
 			//	OD	--	Rinse, repeat...
 
-			//	CONSIDER:	Return the best solution? The whole population?
+			this.Population.AddRange(this._elitistStrategy.ReturnBest());
+
+			var result = this.Population.MaxBy(solution => solution.EvaluationResult);
+
+			return result;
+			// Return the best solution.
 		}
 
 		#region PrivateMethods
@@ -186,9 +181,9 @@ namespace Genetic
 		/// <returns>
 		///     Randomized collection of Genomes.
 		/// </returns>
-		private List<Genome> GetRandomizedCandidateSolutions(int populationCount)
+		private IEnumerable<Genome> GetRandomizedCandidateSolutions(int populationCount)
 		{
-			List<Genome> result = Enumerable.Range(0, populationCount)
+			var result = Enumerable.Range(0, populationCount)
 			                                .Select(s => new Genome(RandomGenerator.GetRandomBoolCollection(this._genomeLength)))
 			                                .ToList();
 

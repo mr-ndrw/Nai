@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Bases\CandidateSolution.cs" />
     <Compile Include="Bases\Recombinator.cs" />
+    <Compile Include="InterfacesAndBases\IElitistStrategy.cs" />
     <Compile Include="InterfacesAndBases\IEvaluationFunction.cs" />
     <Compile Include="InterfacesAndBases\IMutator.cs" />
     <Compile Include="RandomGenerator.cs" />
@@ -52,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functions\" />
-    <Folder Include="Terminators\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

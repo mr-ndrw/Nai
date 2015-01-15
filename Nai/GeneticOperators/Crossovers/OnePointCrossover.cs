@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Shared;
 using Shared.Bases;
 using Shared.Utils;
@@ -55,10 +54,7 @@ namespace GeneticOperators.Crossovers
 			{
 				return;
 			}
-			//	if it passed, carry on
 
-			//	firstGenome:	######
-			//	secondGenome:	******
 			var firstGenome = solutionPair.X.Solution;
 			var secondGenome = solutionPair.Y.Solution;
 
@@ -66,21 +62,19 @@ namespace GeneticOperators.Crossovers
 			var crossingPoint = RandomGenerator.GetRandomInt(0, firstGenome.Count());
 
 			//	[Former][Latter]
+			//	splice parent genomes into 4 parts
 			var firstGenomeFormerPart = firstGenome.Take(crossingPoint);
 			var secondGenomeFormerPart = firstGenome.Take(crossingPoint);
 
 			var firstGenomeLatterPart = firstGenome.Skip(crossingPoint);
 			var secondGenomeLatterPart = secondGenome.Skip(crossingPoint);
 
+			//	join splices into children
 			var firstChildGenome = firstGenomeFormerPart.Concat(secondGenomeLatterPart);
 			var secondChildGenome = secondGenomeFormerPart.Concat(firstGenomeLatterPart);
 
 			firstGenome = firstChildGenome;
 			secondGenome = secondChildGenome;
-
-			//	predicted output:	
-			//	firstGenome:	###***
-			//	secondGenome:	***###
 		}
 	}
 }

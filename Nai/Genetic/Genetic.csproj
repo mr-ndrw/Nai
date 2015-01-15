@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="GeneticStructure.cs" />
     <Compile Include="Genome.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.MaxBy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +53,9 @@
       <Project>{e63a9355-3608-4052-a020-fc0dea8ce015}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
