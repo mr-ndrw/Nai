@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shared
 {
 	public static class RandomGenerator
 	{
-		private static Random _random;
+		private static readonly Random Random;
 
 
 		static RandomGenerator()
 		{
-			_random = new Random();
+			Random = new Random();
 		}
 
 		/// <summary>
@@ -24,7 +22,7 @@ namespace Shared
 		/// </param>
 		public static IEnumerable<bool> GetRandomBoolCollection(int length)
 		{
-			var randomTrueFalseCollection = Enumerable.Range(0, length).Select(r =>_random.NextDouble() > 0.5);
+			var randomTrueFalseCollection = Enumerable.Range(0, length).Select(r =>Random.NextDouble() > 0.5);
 
 			return randomTrueFalseCollection;
 		}
@@ -36,7 +34,7 @@ namespace Shared
 		/// <returns></returns>
 		public static IEnumerable<double> GetRandomDoubles(int length)
 		{
-			return Enumerable.Range(0, length).Select(rand => _random.NextDouble());
+			return Enumerable.Range(0, length).Select(rand => Random.NextDouble());
 		}
 
 		/// <summary>
@@ -47,7 +45,7 @@ namespace Shared
 		/// </returns>
 		public static int GetRandomInt()
 		{
-			return _random.Next();
+			return Random.Next();
 		}
 
 		/// <summary>
@@ -61,9 +59,8 @@ namespace Shared
 		/// </returns>
 		public static int GetRandomInt(int maxValue)
 		{
-			return _random.Next(maxValue);
+			return Random.Next(maxValue);
 		}
-
 
 		/// <summary>
 		///		Returns a random number from the specified range.
@@ -79,7 +76,16 @@ namespace Shared
 		/// </returns>
 		public static int GetRandomInt(int minValue, int maxValue)
 		{
-			return _random.Next(minValue, maxValue);
+			return Random.Next(minValue, maxValue);
+		}
+
+		/// <summary>
+		///		Returns a random number between 0.0 and 1.0.
+		/// </summary>
+		/// <returns></returns>
+		public static double GetRandomDouble()
+		{
+			return Random.NextDouble();
 		}
 	}
 }

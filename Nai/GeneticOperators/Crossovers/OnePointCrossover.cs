@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Shared;
 using Shared.Bases;
 using Shared.Utils;
 
@@ -11,23 +12,19 @@ namespace GeneticOperators.Crossovers
 	public class OnePointCrossover : Recombinator
 	{
 		/// <summary>
-		///		Number of bits at the beginning to skip.
+		///		Occurence at which the crossing over should occur.
 		/// </summary>
-		/// <remarks>
-		///		The bits at the beginning will not be taken into the exchanging genetic material.
-		/// </remarks>
-		private readonly int _bitsToSkip;
+		private readonly double _mutationChance;
 
 		/// <summary>
-		///		Initializes the object of the Recombinator object with the number of bits in the beginning
-		///		it should skip during material exchange.
+		///		Initializes the object with the mutation probability.
 		/// </summary>
-		/// <param name="bitsToSkip">
-		///		Bits to skip during the one point crossover operation
+		/// <param name="mutationChance">
+		///		Mutation chance ranging from 0.0 to 1.0.
 		/// </param>
-		public OnePointCrossover(int bitsToSkip) 
+		public OnePointCrossover(double mutationChance)
 		{
-			this._bitsToSkip = bitsToSkip;
+			this._mutationChance = mutationChance;
 		}
 
 		/// <summary>
@@ -52,13 +49,24 @@ namespace GeneticOperators.Crossovers
 		/// </param>
 		public override void Crossover(Pair<CandidateSolution> solutionPair)
 		{
+			//	check if crossing over will even happen
+			var randomDouble = RandomGenerator.GetRandomDouble();
+			if (randomDouble > this._mutationChance)
+			{
+				return;
+			}
+			//	if it passed, carry on
+
 			//	firstGenome:	######
 			//	secondGenome:	******
 			var firstGenome = solutionPair.X.Solution;
 			var secondGenome = solutionPair.Y.Solution;
 
-			var firstGenomeLatterPart = firstGenome.Skip(_bitsToSkip);
-			var secondGenomeLatterPart = secondGenome.Skip(_bitsToSkip);
+			//	select random crossing point solution's index range.
+			var crossingPoint = RandomGenerator.GetRandomInt(0, firstGenome.Count());
+
+			var firstGenomeLatterPart = firstGenome.Skip(crossingPoint);
+			var secondGenomeLatterPart = secondGenome.Skip(crossingPoint);
 
 			var secondGenomeLatterPartTemp = secondGenome.Select(bit => bit); 
 			//	predicted output:	
