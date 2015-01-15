@@ -1,27 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Shared.Bases;
 using Shared.Utils;
 
 namespace GeneticOperators.Crossovers
 {
+	/// <summary>
+	///		Allows to perform a One point crossover on the population.
+	/// </summary>
 	public class OnePointCrossover : Recombinator
 	{
 		/// <summary>
-		///		Initializes the object of the Recombinator object with values at which it should peform crossovers on Genomes.
+		///		Number of bits at the beginning to skip.
 		/// </summary>
-		/// <param name="crossoverPoint">
-		///		Points to perform crossover.
+		/// <remarks>
+		///		The bits at the beginning will not be taken into the exchanging genetic material.
+		/// </remarks>
+		private readonly int _bitsToSkip;
+
+		/// <summary>
+		///		Initializes the object of the Recombinator object with the number of bits in the beginning
+		///		it should skip during material exchange.
+		/// </summary>
+		/// <param name="bitsToSkip">
+		///		Bits to skip during the one point crossover operation
 		/// </param>
-		public OnePointCrossover(int crossoverPoint) : base(crossoverPoint)
+		public OnePointCrossover(int bitsToSkip) 
 		{
+			this._bitsToSkip = bitsToSkip;
 		}
 
 		/// <summary>
-		///		Peforms a Crossover on two parent genomes and subsititutes them for their children.
+		///		Peforms a One Point Crossover on two solutions.
 		/// </summary>
 		/// <param name="firstParent">
 		///		First genome to perform Crossover on.
@@ -35,14 +45,25 @@ namespace GeneticOperators.Crossovers
 		}
 
 		///  <summary>
-		/// 		Peforms a Crossover on two parent genomes and subsititutes them for their children.
+		/// 		Peforms aOne Point Crossover on a Pair of solutions.
 		///  </summary>
 		/// <param name="solutionPair">
 		///		Pair to perform a crossover on.
 		/// </param>
 		public override void Crossover(Pair<CandidateSolution> solutionPair)
 		{
-			throw new NotImplementedException();
+			//	firstGenome:	######
+			//	secondGenome:	******
+			var firstGenome = solutionPair.X.Solution;
+			var secondGenome = solutionPair.Y.Solution;
+
+			var firstGenomeLatterPart = firstGenome.Skip(_bitsToSkip);
+			var secondGenomeLatterPart = secondGenome.Skip(_bitsToSkip);
+
+			var secondGenomeLatterPartTemp = secondGenome.Select(bit => bit); 
+			//	predicted output:	
+			//	firstGenome:	###***
+			//	secondGenome:	***###
 		}
 	}
 }

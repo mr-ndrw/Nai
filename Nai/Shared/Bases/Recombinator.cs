@@ -4,29 +4,10 @@ using Shared.Utils;
 namespace Shared.Bases
 {
 	/// <summary>
-	///		Gives acces to solution recombination methods.
+	///		Serves as a base class for crossover classes.
 	/// </summary>
 	public abstract class Recombinator
 	{
-		/// <summary>
-		///		Points at which to perform a crossover.
-		/// </summary>
-		/// <remarks>
-		///		If there is only one point present in the array, then the crossover will be performed only at that point.
-		/// </remarks>
-		private readonly int  _crossoverPoint;
-
-		/// <summary>
-		///		Initializes the object of the Recombinator object with values at which it should peform crossovers on Genomes.
-		/// </summary>
-		/// <param name="crossoverPoint">
-		///		Points to perform crossover.
-		/// </param>
-		protected Recombinator(int crossoverPoint)
-		{
-			this._crossoverPoint = crossoverPoint;
-		}
-
 		/// <summary>
 		///		Peforms a Crossover on two parent genomes and subsititutes them for their children.
 		/// </summary>
@@ -47,11 +28,15 @@ namespace Shared.Bases
 		public abstract void Crossover(Pair<CandidateSolution> solutionPair);
 
 		/// <summary>
-		///		Analyzes 
+		///		Takes the the population and performs a crossover opereration on the solutions.
 		/// </summary>
 		/// <param name="population">
-		///		
+		///		Solutions to recombine.
 		/// </param>
+		/// <remarks>
+		///		This procedure will only take into consideration an even number of genomes, 
+		///		subsequently leaving the odd one with no mutation, as such are the rules of nature.
+		/// </remarks>
 		public void ProduceOffsprings(List<CandidateSolution> population)
 		{
 			//	Generate a list of random integers ranging from 0 to populationCount if it is even, if not then generate up to populationCount - 1.
@@ -61,13 +46,11 @@ namespace Shared.Bases
 			{
 				indexList.Add(i);
 			}
-
 			indexList.Shuffle();
 			
 			//	With list shuffled, we will now take each next 2 elements, create a pair out of them and insert them into a list containging these pairs.
-
 			var pairList = new List<Pair<CandidateSolution>>();
-			for (int i = 1; i < indexList.Count; i = i + 2)
+			for (var i = 1; i < indexList.Count; i = i + 2)
 			{
 				var firstSolution = population[indexList[i - 1]];
 				var secondSolution = population[indexList[i]];
@@ -75,7 +58,9 @@ namespace Shared.Bases
 				var pair = new Pair<CandidateSolution>(firstSolution, secondSolution);
 				pairList.Add(pair);
 			}
+
 			//	Iterate over the pair list and perform on each pair an operation of recombination
+			//	CrossOver method invoked for each of the pair has to implemented by the inheriting classes.
 			pairList.ForEach(this.Crossover);
 		}
 
