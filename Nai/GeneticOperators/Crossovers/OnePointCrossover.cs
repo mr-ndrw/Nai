@@ -38,7 +38,7 @@ namespace GeneticOperators.Crossovers
 		/// </param>
 		public override void Crossover(CandidateSolution firstParent, CandidateSolution secondParent)
 		{
-			throw new NotImplementedException();
+			this.Crossover(new Pair<CandidateSolution>(firstParent, secondParent));
 		}
 
 		///  <summary>
@@ -49,7 +49,7 @@ namespace GeneticOperators.Crossovers
 		/// </param>
 		public override void Crossover(Pair<CandidateSolution> solutionPair)
 		{
-			//	check if crossing over will even happen
+			//	check if crossing-over will even happen
 			var randomDouble = RandomGenerator.GetRandomDouble();
 			if (randomDouble > this._mutationChance)
 			{
@@ -65,10 +65,19 @@ namespace GeneticOperators.Crossovers
 			//	select random crossing point solution's index range.
 			var crossingPoint = RandomGenerator.GetRandomInt(0, firstGenome.Count());
 
+			//	[Former][Latter]
+			var firstGenomeFormerPart = firstGenome.Take(crossingPoint);
+			var secondGenomeFormerPart = firstGenome.Take(crossingPoint);
+
 			var firstGenomeLatterPart = firstGenome.Skip(crossingPoint);
 			var secondGenomeLatterPart = secondGenome.Skip(crossingPoint);
 
-			var secondGenomeLatterPartTemp = secondGenome.Select(bit => bit); 
+			var firstChildGenome = firstGenomeFormerPart.Concat(secondGenomeLatterPart);
+			var secondChildGenome = secondGenomeFormerPart.Concat(firstGenomeLatterPart);
+
+			firstGenome = firstChildGenome;
+			secondGenome = secondChildGenome;
+
 			//	predicted output:	
 			//	firstGenome:	###***
 			//	secondGenome:	***###
