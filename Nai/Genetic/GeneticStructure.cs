@@ -150,13 +150,19 @@ namespace Genetic
 			//	DO
 			while (!this._terminator.IsTerminationConditionMet(this.Population))
 			{
+				//	Evaluate the population.
+				this.Population.ForEach(solution => this._function.EvaluateGenome(solution));
+
 				//	Select the best solutions for safekeeping, therefore not allowing it be lost amidst the evolution process.
 				this._elitistStrategy.PickBest(this.Population);
+
 				//	Select the parents AND
 				//	Perform an evaluation of each candidate solution in the Population.
 				this._selector.PickBestFitPopulation(this.Population);
+
 				//	Recombine the parents - produce offsprings.
 				this._recombinator.ProduceOffsprings(this.Population);
+
 				//	Mutate offsprings.
 				this._mutator.Mutate(this.Population);
 			}

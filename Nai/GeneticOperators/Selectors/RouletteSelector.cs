@@ -33,7 +33,7 @@ namespace Genetic
 			var populationCount = candidateSolutions.Count();
 
 			//	Evaluate each candaidate solution.
-			candidateSolutions.ForEach(solution => this._fitnessFunction.EvaluateGenome(solution));
+			// candidateSolutions.ForEach(solution => this._fitnessFunction.EvaluateGenome(solution));
 
 			//	Create a collection of normalized EvaluationValues.
 			//	Meaning that each solution is assigned a value which is the quotient of it's own fitness 
@@ -45,7 +45,7 @@ namespace Genetic
 
 			//	Sort the population descendingly.
 			candidateSolutions = (from solution in candidateSolutions
-			                     orderby solution descending
+			                     orderby solution.EvaluationResult descending
 			                     select solution).ToList();
 
 			//	Get a random array of doubles of length equal to population count.
