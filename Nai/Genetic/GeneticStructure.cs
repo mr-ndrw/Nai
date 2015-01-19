@@ -19,7 +19,7 @@ namespace Genetic
 		/// <summary>
 		///     Function which evaluates the genomes within the population.
 		/// </summary>
-		private readonly IEvaluationFunction _function;
+		private readonly IFitnessFunction _function;
 
 		/// <summary>
 		///     Length of the individual genome.
@@ -85,7 +85,7 @@ namespace Genetic
 		///     Length of indiviudal genome.
 		/// </param>
 		/// <param name="elitistStrategy"></param>
-		public GeneticStructure(int populationCount, int genomeLength, IEvaluationFunction function, Selector selector,
+		public GeneticStructure(int populationCount, int genomeLength, IFitnessFunction function, Selector selector,
 		                        IMutator mutator, Recombinator recombinator, IElitistStrategy elitistStrategy,
 		                        ITerminator terminator)
 		{

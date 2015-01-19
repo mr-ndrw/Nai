@@ -8,21 +8,27 @@ namespace Shared.GraphRelated
 	/// </summary>
 	public class Graph
 	{
-		/// <summary>
-		///		Initializes the object with a collection of vertices.
-		/// </summary>
-		/// <param name="vertices">
-		///		List to be included in the Graph.
+		///  <summary>
+		/// 	Initializes the object with a collection of vertices and edges that connect them.
+		///  </summary>
+		///  <param name="vertices">
+		/// 	Vertices present in the graph.
+		///  </param>
+		/// <param name="edges">
+		///		Edges present in the graph.
 		/// </param>
-		public Graph(List<Vertex> vertices)
+		public Graph(List<Vertex> vertices, List<Edge> edges)
 		{
 			this.Vertices = vertices;
+			this.Edges = edges;
 		}
 
 		/// <summary>
 		///		Collection of vertices.
 		/// </summary>
 		public List<Vertex> Vertices { get; private set; }
+
+		public List<Edge> Edges { get; private set; }
 
 		/// <summary>
 		///		Returns the vertex from the list by the specified number.

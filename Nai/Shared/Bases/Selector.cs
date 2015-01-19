@@ -8,7 +8,7 @@ namespace Shared.Bases
 	/// </summary>
 	public abstract class Selector
 	{
-		protected readonly IEvaluationFunction _fitnessFunction;
+		protected readonly IFitnessFunction _fitnessFunction;
 
 		/// <summary>
 		///		Initializes an object with w fitness function which will be used throughout the selection process.
@@ -16,7 +16,7 @@ namespace Shared.Bases
 		/// <param name="fitnessFunction">
 		///		Fitness function.
 		/// </param>
-		protected Selector(IEvaluationFunction fitnessFunction)
+		protected Selector(IFitnessFunction fitnessFunction)
 		{
 			this._fitnessFunction = fitnessFunction;
 		}

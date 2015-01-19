@@ -5,7 +5,7 @@ namespace Shared.InterfacesAndBases
 	/// <summary>
 	///		Provides means of evaluating units in the solution space.
 	/// </summary>
-	public interface IEvaluationFunction
+	public interface IFitnessFunction
 	{
 		/// <summary>
 		///		Evaluates the solution candidate and assigns a value to it.

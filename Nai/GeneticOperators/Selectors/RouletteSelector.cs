@@ -17,7 +17,7 @@ namespace Genetic
 		/// <param name="fitnessFunction">
 		///		Fitness function.
 		/// </param>
-		public RouletteSelector(IEvaluationFunction fitnessFunction) 
+		public RouletteSelector(IFitnessFunction fitnessFunction) 
 			: base(fitnessFunction)
 		{
 		}

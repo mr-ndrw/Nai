@@ -5,13 +5,22 @@
 	/// </summary>
 	public class Edge
 	{
-		/// <summary>
-		///		Creates an edge using two vertices which it should connect.
-		/// </summary>
-		public Edge(Vertex firstVertex, Vertex secondVertex)
+		///  <summary>
+		/// 		Creates an edge using two vertices which it should connect.
+		///  </summary>
+		/// <param name="firstVertex"></param>
+		/// <param name="secondVertex"></param>
+		/// <param name="label"></param>
+		public Edge(Vertex firstVertex, Vertex secondVertex, string label)
 		{
+			this.Label = label;
 			this.Connect(firstVertex, secondVertex);
 		}
+
+		/// <summary>
+		///		Unique label of this edge.
+		/// </summary>
+		public string Label { get; private set; }
 
 		/// <summary>
 		///		First connected vertex.

@@ -41,11 +41,12 @@
   <ItemGroup>
     <Compile Include="Bases\CandidateSolution.cs" />
     <Compile Include="Bases\Recombinator.cs" />
+    <Compile Include="Functions\FitnessFunction.cs" />
     <Compile Include="GraphRelated\Edge.cs" />
     <Compile Include="GraphRelated\Graph.cs" />
     <Compile Include="GraphRelated\Vertex.cs" />
     <Compile Include="InterfacesAndBases\IElitistStrategy.cs" />
-    <Compile Include="InterfacesAndBases\IEvaluationFunction.cs" />
+    <Compile Include="InterfacesAndBases\IFitnessFunction.cs" />
     <Compile Include="InterfacesAndBases\IMutator.cs" />
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="Bases\Selector.cs" />
@@ -54,9 +55,7 @@
     <Compile Include="Utils\ListHelper.cs" />
     <Compile Include="Utils\Pair.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Functions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
