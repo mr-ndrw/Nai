@@ -16,6 +16,6 @@ namespace Shared.InterfacesAndBases
 		/// <returns>
 		///		The value that was assigned to the candidate.
 		/// </returns>
-		double EvaluateGenome(CandidateSolution solutionCandidate);
+		double EvaluateSolution(CandidateSolution solutionCandidate);
 	}
 }

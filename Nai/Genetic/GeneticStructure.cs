@@ -6,14 +6,116 @@ using Shared;
 using Shared.Bases;
 using Shared.InterfacesAndBases;
 
-
 namespace Genetic
 {
 	/// <summary>
 	///     Main module of the genetic algorithm. Contains genetic population and performs operations on it.
-	/// </summary>	
+	/// </summary>
 	public sealed class GeneticStructure
 	{
+		#region Constructor
+
+		/// <summary>
+		///     Initializes an object with population and algorithm which will be used in the evolution process.
+		/// </summary>
+		/// <param name="populationCount">
+		///     The total number of species within the population.
+		/// </param>
+		/// <param name="function">
+		///     Shared fitness function across the genetic structure.
+		/// </param>
+		/// <param name="selector">
+		///     Selector for the given problem.
+		/// </param>
+		/// <param name="mutator">
+		///     Mutator for the given problem.
+		/// </param>
+		/// <param name="recombinator">
+		///     Recombinator for the population.
+		/// </param>
+		/// <param name="terminator">
+		///     Termination interface.
+		/// </param>
+		/// <param name="genomeLength">
+		///     Length of indiviudal genome.
+		/// </param>
+		/// <param name="elitistStrategy">
+		///		Strategy for picking the best present solution in the epoch.
+		/// </param>
+		public GeneticStructure(int populationCount, int genomeLength, IFitnessFunction function, Selector selector,
+		                        IMutator mutator, Recombinator recombinator, IElitistStrategy elitistStrategy,
+		                        ITerminator terminator)
+		{
+			if (populationCount <= 0) throw new ArgumentException(string.Format(populationCount.ToString()));
+			if (genomeLength <= 0) throw new ArgumentException(genomeLength.ToString());
+			if (recombinator == null) throw new ArgumentNullException("recombinator");
+			if (elitistStrategy == null) throw new ArgumentNullException("elitistStrategy");
+			if (function == null) throw new ArgumentNullException("function");
+			if (selector == null) throw new ArgumentNullException("selector");
+			if (mutator == null) throw new ArgumentNullException("mutator");
+			if (terminator == null) throw new ArgumentNullException("terminator");
+
+			this._function = function;
+			this._selector = selector;
+			this._mutator = mutator;
+			this._genomeLength = genomeLength;
+			this._recombinator = recombinator;
+			this._elitistStrategy = elitistStrategy;
+			this._terminator = terminator;
+			this._populationCount = populationCount;
+			this._genomeLength = genomeLength;
+			this.Population = new List<Shared.Bases.CandidateSolution>(populationCount);
+		}
+
+		/// <summary>
+		///     Initializes an object with members which will be used in the evolution process.
+		/// </summary>
+		/// <param name="population">
+		///		Population to operate on during the evolution process.
+		/// </param>
+		/// <param name="function">
+		///     Shared fitness function across the genetic structure.
+		/// </param>
+		/// <param name="selector">
+		///     Selector for the given problem.
+		/// </param>
+		/// <param name="mutator">
+		///     Mutator for the given problem.
+		/// </param>
+		/// <param name="recombinator">
+		///     Recombinator for the population.
+		/// </param>
+		/// <param name="terminator">
+		///     Termination interface.
+		/// </param>
+		/// <param name="elitistStrategy"></param>
+		public GeneticStructure(List<Shared.Bases.CandidateSolution> population, IFitnessFunction function, Selector selector,
+								IMutator mutator, Recombinator recombinator, IElitistStrategy elitistStrategy,
+								ITerminator terminator)
+		{
+			if (population.Count <= 0) throw new ArgumentException(string.Format(population.Count.ToString()));
+			if (population[0].Solution.Count() <= 0) throw new ArgumentException(population[0].Solution.Count().ToString());
+			if (recombinator == null) throw new ArgumentNullException("recombinator");
+			if (elitistStrategy == null) throw new ArgumentNullException("elitistStrategy");
+			if (function == null) throw new ArgumentNullException("function");
+			if (selector == null) throw new ArgumentNullException("selector");
+			if (mutator == null) throw new ArgumentNullException("mutator");
+			if (terminator == null) throw new ArgumentNullException("terminator");
+
+			this._function = function;
+			this._selector = selector;
+			this._mutator = mutator;
+			this._genomeLength = population[0].Solution.Count();
+			this._recombinator = recombinator;
+			this._elitistStrategy = elitistStrategy;
+			this._terminator = terminator;
+			this._populationCount = population.Count;
+			this._genomeLength = population[0].Solution.Count();
+			this.Population = population;
+		}
+
+		#endregion
+
 		#region Private Fields
 
 		/// <summary>
@@ -42,7 +144,7 @@ namespace Genetic
 		private readonly Recombinator _recombinator;
 
 		/// <summary>
-		///		Strategy for picking the best solution(s) in the space during the evaluation.
+		///     Strategy for picking the best solution(s) in the space during the evaluation.
 		/// </summary>
 		private readonly IElitistStrategy _elitistStrategy;
 
@@ -55,60 +157,6 @@ namespace Genetic
 		///     Provides the answer whether the population is satisifiable.
 		/// </summary>
 		private readonly ITerminator _terminator;
-
-		#endregion
-
-		#region Constructor
-
-		/// <summary>
-		///     Initializes an object with members which will be used in the evolution process.
-		/// </summary>
-		/// <param name="populationCount">
-		///     The total number of species within the population.
-		/// </param>
-		/// <param name="function">
-		///     Shared fitness function across the genetic structure.
-		/// </param>
-		/// <param name="selector">
-		///     Selector for the given problem.
-		/// </param>
-		/// <param name="mutator">
-		///     Mutator for the given problem.
-		/// </param>
-		/// <param name="recombinator">
-		///     Recombinator for the population.
-		/// </param>
-		/// <param name="terminator">
-		///     Termination interface.
-		/// </param>
-		/// <param name="genomeLength">
-		///     Length of indiviudal genome.
-		/// </param>
-		/// <param name="elitistStrategy"></param>
-		public GeneticStructure(int populationCount, int genomeLength, IFitnessFunction function, Selector selector,
-		                        IMutator mutator, Recombinator recombinator, IElitistStrategy elitistStrategy,
-		                        ITerminator terminator)
-		{
-			if (populationCount <= 0) throw new ArgumentException(string.Format(populationCount.ToString()));
-			if (genomeLength <= 0) throw new ArgumentException(genomeLength.ToString());
-			if (recombinator == null) throw new ArgumentNullException("recombinator");
-			if (elitistStrategy == null) throw new ArgumentNullException("elitistStrategy");
-			if (function == null) throw new ArgumentNullException("function");
-			if (selector == null) throw new ArgumentNullException("selector");
-			if (mutator == null) throw new ArgumentNullException("mutator");
-			if (terminator == null) throw new ArgumentNullException("terminator");
-
-			this._function = function;
-			this._selector = selector;
-			this._mutator = mutator;
-			this._genomeLength = genomeLength;
-			this._recombinator = recombinator;
-			this._elitistStrategy = elitistStrategy;
-			this._terminator = terminator;
-			this._populationCount = populationCount;
-			this._genomeLength = genomeLength;
-			this.Population = new List<CandidateSolution>(populationCount);
-		}
 
 		#endregion
 
@@ -133,7 +181,7 @@ namespace Genetic
 		/// <summary>
 		///     Population of candidate solutions.
 		/// </summary>
-		public List<CandidateSolution> Population { get; private set; }
+		public List<Shared.Bases.CandidateSolution> Population { get; private set; }
 
 		#endregion
 
@@ -142,16 +190,21 @@ namespace Genetic
 		/// <summary>
 		///     Perfoms genetic algorithm on the population.
 		/// </summary>
-		public CandidateSolution Evolve()
+		public Shared.Bases.CandidateSolution Evolve()
 		{
+
 			//	Initialize the population with random values inside their Solution (bool)array.
-			this.Population.AddRange(this.GetRandomizedCandidateSolutions(this._populationCount));
+			if (this.Population.Count == 0)
+			{
+				this.Population.AddRange(this.GetRandomizedCandidateSolutions(this._populationCount));
+			}
+			
 			//	Loop until Termination Condition is met.
 			//	DO
 			while (!this._terminator.IsTerminationConditionMet(this.Population))
 			{
 				//	Evaluate the population.
-				this.Population.ForEach(solution => this._function.EvaluateGenome(solution));
+				this.Population.ForEach(solution => this._function.EvaluateSolution(solution));
 
 				//	Select the best solutions for safekeeping, therefore not allowing it be lost amidst the evolution process.
 				this._elitistStrategy.PickBest(this.Population);
@@ -187,11 +240,11 @@ namespace Genetic
 		/// <returns>
 		///     Randomized collection of Genomes.
 		/// </returns>
-		private IEnumerable<Genome> GetRandomizedCandidateSolutions(int populationCount)
+		private IEnumerable<CandidateSolution> GetRandomizedCandidateSolutions(int populationCount)
 		{
 			var result = Enumerable.Range(0, populationCount)
-			                                .Select(s => new Genome(RandomGenerator.GetRandomBoolCollection(this._genomeLength)))
-			                                .ToList();
+			                       .Select(s => new CandidateSolution(RandomGenerator.GetRandomBoolCollection(this._genomeLength)))
+			                       .ToList();
 
 			return result;
 		}

@@ -5,22 +5,23 @@ using Shared.InterfacesAndBases;
 namespace GeneticOperators.Terminators
 {
 	/// <summary>
-	///		Exposes a method for epoch number based termination.	
+	///     Exposes a method for epoch number based termination.
 	/// </summary>
 	public class EpochCountTerminator : ITerminator
 	{
 		/// <summary>
-		///		Number of generations this algorithm
+		///     Number of generations this algorithm
 		/// </summary>
 		private readonly int _maxNumberOfEpochs;
 
 		/// <summary>
-		///		Current epoch number.
+		///     Current epoch number.
 		/// </summary>
 		private int _currentEpoch;
 
 		/// <summary>
-		///		Initializes the object with the value of maximum number of epochs, the termination algorithm should take into criteria.
+		///     Initializes the object with the value of maximum number of epochs, the termination algorithm should take into
+		///     criteria.
 		/// </summary>
 		/// <param name="maxNumberOfEpochs"></param>
 		public EpochCountTerminator(int maxNumberOfEpochs)
@@ -29,15 +30,14 @@ namespace GeneticOperators.Terminators
 			this._currentEpoch = 1;
 		}
 
-
-		///  <summary>
-		/// 	Returns false if the current epoch has exceeded the parametrized maximum number of epoochs.
-		///  </summary>
+		/// <summary>
+		///     Returns false if the current epoch has exceeded the parametrized maximum number of epoochs.
+		/// </summary>
 		/// <param name="candidateSolutions">
-		///		Collection of solutions to analyze.
+		///     Collection of solutions to analyze.
 		/// </param>
 		/// <returns>
-		///		Has this colletion met the implemented criteria.
+		///     Has this colletion met the implemented criteria.
 		/// </returns>
 		public bool IsTerminationConditionMet(IEnumerable<CandidateSolution> candidateSolutions)
 		{

@@ -48,6 +48,9 @@
     <Compile Include="InterfacesAndBases\IElitistStrategy.cs" />
     <Compile Include="InterfacesAndBases\IFitnessFunction.cs" />
     <Compile Include="InterfacesAndBases\IMutator.cs" />
+    <Compile Include="InterfacesAndBases\INeighbourFunction.cs" />
+    <Compile Include="InterfacesAndBases\IProbabilityFunction.cs" />
+    <Compile Include="InterfacesAndBases\ITemperatureFunction.cs" />
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="Bases\Selector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

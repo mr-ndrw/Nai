@@ -26,7 +26,7 @@ namespace Shared.Functions
 		/// <returns>
 		///		The value that was assigned to the candidate.
 		/// </returns>
-		public double EvaluateGenome(CandidateSolution solutionCandidate)
+		public double EvaluateSolution(CandidateSolution solutionCandidate)
 		{
 			//	Basic premises and terms:
 			//	Rational solution	-	Solution that meets the criteria of being a vertex cover - minimal or not.
@@ -46,6 +46,11 @@ namespace Shared.Functions
 			return solutionCandidate.EvaluationResult = 1 / (double) numberOfVerticesPresent;
 		}
 
+		/// <summary>
+		///		Checks whether the solution for it's rationality.
+		/// </summary>
+		/// <param name="candidateSolution"></param>
+		/// <returns></returns>
 		private bool IsRational(CandidateSolution candidateSolution)
 		{
 			var presentEdgesInTheSolution = new bool[this.Graph.Edges.Count];//all will be false during creation.
