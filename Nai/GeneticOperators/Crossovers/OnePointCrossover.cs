@@ -13,17 +13,17 @@ namespace GeneticOperators.Crossovers
 		/// <summary>
 		///		Occurence at which the crossing over should occur.
 		/// </summary>
-		private readonly double _mutationChance;
+		private readonly double _crossoverChance;
 
 		/// <summary>
 		///		Initializes the object with the mutation probability.
 		/// </summary>
-		/// <param name="mutationChance">
-		///		Mutation chance ranging from 0.0 to 1.0.
+		/// <param name="crossoverChance">
+		///		Crossover chance ranging from 0.0 to 1.0.
 		/// </param>
-		public OnePointCrossover(double mutationChance)
+		public OnePointCrossover(double crossoverChance)
 		{
-			this._mutationChance = mutationChance;
+			this._crossoverChance = crossoverChance;
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace GeneticOperators.Crossovers
 		{
 			//	check if crossing-over will even happen
 			var randomDouble = RandomGenerator.GetRandomDouble();
-			if (randomDouble > this._mutationChance)
+			if (randomDouble > this._crossoverChance)
 			{
 				return;
 			}
@@ -75,6 +75,43 @@ namespace GeneticOperators.Crossovers
 
 			firstGenome = firstChildGenome;
 			secondGenome = secondChildGenome;
+		}
+
+		///  <summary>
+		/// 		Peforms aOne Point Crossover on a Pair of solutions.
+		///  </summary>
+		/// <param name="solutionPair">
+		///		Pair to perform a crossover on.
+		/// </param>
+		public void CrossoverForTestsOnly(Pair<CandidateSolution> solutionPair, int fixedCrossingIndex)
+		{
+			//	check if crossing-over will even happen
+			var randomDouble = RandomGenerator.GetRandomDouble();
+			if (randomDouble > this._crossoverChance)
+			{
+				return;
+			}
+
+			var firstGenome = solutionPair.X.Solution;
+			var secondGenome = solutionPair.Y.Solution;
+
+			//	select random crossing point solution's index range.
+			var crossingPoint = fixedCrossingIndex;
+
+			//	[Former][Latter]
+			//	splice parent genomes into 4 parts
+			var firstGenomeFormerPart = firstGenome.Take(crossingPoint);
+			var secondGenomeFormerPart = secondGenome.Take(crossingPoint);
+
+			var firstGenomeLatterPart = firstGenome.Skip(crossingPoint);
+			var secondGenomeLatterPart = secondGenome.Skip(crossingPoint);
+
+			//	join splices into children
+			var firstChildGenome = firstGenomeFormerPart.Concat(secondGenomeLatterPart);
+			var secondChildGenome = secondGenomeFormerPart.Concat(firstGenomeLatterPart);
+
+			solutionPair.X.Solution = firstChildGenome;
+			solutionPair.Y.Solution = secondChildGenome;
 		}
 	}
 }

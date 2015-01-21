@@ -64,7 +64,7 @@ namespace Genetic
 			this._terminator = terminator;
 			this._populationCount = populationCount;
 			this._genomeLength = genomeLength;
-			this.Population = new List<Shared.Bases.CandidateSolution>(populationCount);
+			this.Population = new List<CandidateSolution>(populationCount);
 		}
 
 		/// <summary>
@@ -89,7 +89,7 @@ namespace Genetic
 		///     Termination interface.
 		/// </param>
 		/// <param name="elitistStrategy"></param>
-		public GeneticStructure(List<Shared.Bases.CandidateSolution> population, IFitnessFunction function, Selector selector,
+		public GeneticStructure(List<CandidateSolution> population, IFitnessFunction function, Selector selector,
 								IMutator mutator, Recombinator recombinator, IElitistStrategy elitistStrategy,
 								ITerminator terminator)
 		{
@@ -190,10 +190,10 @@ namespace Genetic
 		/// <summary>
 		///     Perfoms genetic algorithm on the population.
 		/// </summary>
-		public Shared.Bases.CandidateSolution Evolve()
+		public CandidateSolution Evolve()
 		{
 
-			//	Initialize the population with random values inside their Solution (bool)array.
+			//	Initialize the population with random values inside their Solution (bool)array if the population is empty.
 			if (this.Population.Count == 0)
 			{
 				this.Population.AddRange(this.GetRandomizedCandidateSolutions(this._populationCount));
@@ -226,7 +226,6 @@ namespace Genetic
 			var result = this.Population.MaxBy(solution => solution.EvaluationResult);
 
 			return result;
-			// Return the best solution.
 		}
 
 		#region PrivateMethods

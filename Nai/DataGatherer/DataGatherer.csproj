@@ -4,29 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{69AC6CC1-9228-4019-9077-C17C9A1DFE79}</ProjectGuid>
+    <ProjectGuid>{C2073192-AF12-4392-9C34-774A036064A2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimulatedAnnealing</RootNamespace>
-    <AssemblyName>SimulatedAnnealing</AssemblyName>
+    <RootNamespace>DataGatherer</RootNamespace>
+    <AssemblyName>DataGatherer</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -60,37 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoltzmannProbabilityFunction.cs" />
-    <Compile Include="MoreLinq\MoreEnumerable.MaxBy.cs" />
-    <Compile Include="NeighbourFunction.cs" />
-    <Compile Include="SimulatedAnnealer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BasicTemperatureFunction.cs" />
+    <Compile Include="Shared\AlgorithmStructureInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5.1 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\GeneticOperators\GeneticOperators.csproj">
+      <Project>{eeb2dc87-2cfd-4b14-b5de-8aadb5df44fa}</Project>
+      <Name>GeneticOperators</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Genetic\Genetic.csproj">
+      <Project>{075427fb-bf5e-4dfe-9f70-2da70a3efb55}</Project>
+      <Name>Genetic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{e63a9355-3608-4052-a020-fc0dea8ce015}</Project>
       <Name>Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimulatedAnnealing\SimulatedAnnealing.csproj">
+      <Project>{69ac6cc1-9228-4019-9077-c17c9a1dfe79}</Project>
+      <Name>SimulatedAnnealing</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -47,10 +47,10 @@ namespace SimulatedAnnealing
 			this.FitnessFunction.EvaluateSolution(evaluatedSolution);
 			this.FitnessFunction.EvaluateSolution(neighgourSolutionToEvaluated);
 
-			var absoluteDiffrenceOfSolutionsFitness =
-				Math.Abs(evaluatedSolution.EvaluationResult - neighgourSolutionToEvaluated.EvaluationResult);
+			var diffrenceOfSolutionsFitness =
+				evaluatedSolution.EvaluationResult - neighgourSolutionToEvaluated.EvaluationResult;
 
-			var quotientOfAbsAndTemperature = absoluteDiffrenceOfSolutionsFitness / currentTemperature;
+			var quotientOfAbsAndTemperature = diffrenceOfSolutionsFitness / currentTemperature;
 
 			return Math.Exp(-quotientOfAbsAndTemperature);
 		}

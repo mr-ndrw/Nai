@@ -35,18 +35,18 @@ namespace GeneticOperators.Selectors
 			//	Evaluate each candaidate solution.
 			// candidateSolutions.ForEach(solution => this._fitnessFunction.EvaluateSolution(solution));
 
+			//	Sort the population descendingly.
+			candidateSolutions = (from solution in candidateSolutions
+								  orderby solution.EvaluationResult descending
+								  select solution).ToList();
+
 			//	Create a collection of normalized EvaluationValues.
 			//	Meaning that each solution is assigned a value which is the quotient of it's own fitness 
 			//	value and the total sum of fitness values.
 			//	That way the new sum of fitness will be equal to 1, and all underlying and composing fitness values will be in [0, 1] range.
 			var totalFitnessSum = candidateSolutions.Sum(candidateSolution => candidateSolution.EvaluationResult);
-			var normalizedFitnessValues =
+			var normalizedFitnessValuesForGivenSolution =
 				candidateSolutions.Select(solution => (solution.EvaluationResult / totalFitnessSum)).ToArray();
-
-			//	Sort the population descendingly.
-			candidateSolutions = (from solution in candidateSolutions
-			                     orderby solution.EvaluationResult descending
-			                     select solution).ToList();
 
 			//	Get a random array of doubles of length equal to population count.
 			var randomDoubles = RandomGenerator.GetRandomDoubles(populationCount).ToArray();
@@ -57,11 +57,11 @@ namespace GeneticOperators.Selectors
 
 			for (var solutionIndex = 0; solutionIndex < populationCount; solutionIndex++)
 			{
-				accumulatedNormalizedValues[solutionIndex] = normalizedFitnessValues[solutionIndex];
+				accumulatedNormalizedValues[solutionIndex] = normalizedFitnessValuesForGivenSolution[solutionIndex];
 				//	<= solutionIndex and then delete above line?
 				for (var subArrayIndex = 0; subArrayIndex < solutionIndex; subArrayIndex++)
 				{
-					accumulatedNormalizedValues[solutionIndex] += normalizedFitnessValues[subArrayIndex];
+					accumulatedNormalizedValues[solutionIndex] += normalizedFitnessValuesForGivenSolution[subArrayIndex];
 				}
 			}
 

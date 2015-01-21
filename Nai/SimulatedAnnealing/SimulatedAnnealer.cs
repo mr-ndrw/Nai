@@ -8,23 +8,10 @@ namespace SimulatedAnnealing
 {
 	public class SimulatedAnnealer
 	{
-		private readonly int _searchSpaceCardinality;
 		private readonly int _solutionLength;
 
-		public SimulatedAnnealer(List<CandidateSolution> searchSpace, IFitnessFunction fitnessFunction, IProbabilityFunction probabilityFunction, ITemperatureFunction temperatureFunction, INeighbourFunction neighbourFunction, double startingTemperature, double finalTemeprature)
+		public SimulatedAnnealer(int solutionLength, IFitnessFunction fitnessFunction, IProbabilityFunction probabilityFunction, ITemperatureFunction temperatureFunction, INeighbourFunction neighbourFunction, double startingTemperature, double finalTemeprature)
 		{
-			this.FitnessFunction = fitnessFunction;
-			this.ProbabilityFunction = probabilityFunction;
-			this.TemperatureFunction = temperatureFunction;
-			this.NeighbourFunction = neighbourFunction;
-			this.StartingTemperature = startingTemperature;
-			this.FinalTemeprature = finalTemeprature;
-			this.SearchSpace = searchSpace;
-		}
-
-		public SimulatedAnnealer(int searchSpaceCardinality, int solutionLength, IFitnessFunction fitnessFunction, IProbabilityFunction probabilityFunction, ITemperatureFunction temperatureFunction, INeighbourFunction neighbourFunction, double startingTemperature, double finalTemeprature)
-		{
-			this._searchSpaceCardinality = searchSpaceCardinality;
 			this._solutionLength = solutionLength;
 			this.FitnessFunction = fitnessFunction;
 			this.ProbabilityFunction = probabilityFunction;
@@ -32,7 +19,6 @@ namespace SimulatedAnnealing
 			this.NeighbourFunction = neighbourFunction;
 			this.StartingTemperature = startingTemperature;
 			this.FinalTemeprature = finalTemeprature;
-			this.SearchSpace = new List<CandidateSolution>(searchSpaceCardinality);
 		}
 
 		public double StartingTemperature { get; private set; }
@@ -45,18 +31,10 @@ namespace SimulatedAnnealing
 
 		public CandidateSolution Simulate()
 		{
-			if (this.SearchSpace.Count == 0)
-			{
-				this.SearchSpace = (List<CandidateSolution>) this.GetRandomizedCandidateSolutions(this._solutionLength);
-			}
-
-			SearchSpace.ForEach(solution => this.FitnessFunction.EvaluateSolution(solution));
-
-
 			var currentTemperature = this.StartingTemperature;
 
-			var evaluatedSolution = this.SearchSpace[RandomGenerator.GetRandomInt(this._searchSpaceCardinality)];
-
+			var evaluatedSolution = new CandidateSolution(RandomGenerator.GetRandomBoolCollection(this._solutionLength));
+			this.FitnessFunction.EvaluateSolution(evaluatedSolution);
 			var bestSolution = evaluatedSolution;
 
 			CandidateSolution neighbourSolution;
@@ -64,7 +42,6 @@ namespace SimulatedAnnealing
 			while (currentTemperature > this.FinalTemeprature)
 			{
 				neighbourSolution = this.NeighbourFunction.SelectNeighbour(evaluatedSolution);
-
 				this.FitnessFunction.EvaluateSolution(neighbourSolution);
 
 				if (neighbourSolution.EvaluationResult > evaluatedSolution.EvaluationResult)

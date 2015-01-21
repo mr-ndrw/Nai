@@ -1,9 +1,11 @@
-﻿namespace Shared.GraphRelated
+﻿using System;
+
+namespace Shared.GraphRelated
 {
 	/// <summary>
 	///		Represent a connection between two vertices.
 	/// </summary>
-	public class Edge
+	public class Edge : IEquatable<Edge>
 	{
 		///  <summary>
 		/// 		Creates an edge using two vertices which it should connect.
@@ -15,6 +17,11 @@
 		{
 			this.Label = label;
 			this.Connect(firstVertex, secondVertex);
+		}
+
+		public Edge(string label)
+		{
+			this.Label = label;
 		}
 
 		/// <summary>
@@ -48,6 +55,18 @@
 
 			firstVertex.Edges.Add(this);
 			secondVertex.Edges.Add(this);
+		}
+
+		/// <summary>
+		/// Indicates whether the current object is equal to another object of the same type.
+		/// </summary>
+		/// <returns>
+		/// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+		/// </returns>
+		/// <param name="other">An object to compare with this object.</param>
+		public bool Equals(Edge other)
+		{
+			return other.Label == this.Label;
 		}
 	}
 }

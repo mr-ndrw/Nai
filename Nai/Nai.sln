@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticOperators", "Genetic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatedAnnealing", "SimulatedAnnealing\SimulatedAnnealing.csproj", "{69AC6CC1-9228-4019-9077-C17C9A1DFE79}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGatherer", "DataGatherer\DataGatherer.csproj", "{C2073192-AF12-4392-9C34-774A036064A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{69AC6CC1-9228-4019-9077-C17C9A1DFE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69AC6CC1-9228-4019-9077-C17C9A1DFE79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69AC6CC1-9228-4019-9077-C17C9A1DFE79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2073192-AF12-4392-9C34-774A036064A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2073192-AF12-4392-9C34-774A036064A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2073192-AF12-4392-9C34-774A036064A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2073192-AF12-4392-9C34-774A036064A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,5 +80,6 @@ Global
 		{ABD7B272-382C-4968-874B-A08EE94CA033} = {3347A25A-F385-4328-8CC7-3BA235CFCC90}
 		{EEB2DC87-2CFD-4B14-B5DE-8AADB5DF44FA} = {3347A25A-F385-4328-8CC7-3BA235CFCC90}
 		{69AC6CC1-9228-4019-9077-C17C9A1DFE79} = {3347A25A-F385-4328-8CC7-3BA235CFCC90}
+		{C2073192-AF12-4392-9C34-774A036064A2} = {3347A25A-F385-4328-8CC7-3BA235CFCC90}
 	EndGlobalSection
 EndGlobal
