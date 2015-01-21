@@ -15,12 +15,12 @@
 // limitations under the License.
 #endregion
 
-namespace MoreLinq
-{
-    using System;
-    using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
-    static partial class MoreEnumerable
+namespace SimulatedAnnealing.MoreLinq
+{
+	static partial class MoreEnumerable
     {
         /// <summary>
         /// Returns the maximal element of the given sequence, based on

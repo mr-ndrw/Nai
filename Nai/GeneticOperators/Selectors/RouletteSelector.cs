@@ -4,7 +4,7 @@ using Shared;
 using Shared.Bases;
 using Shared.InterfacesAndBases;
 
-namespace Genetic
+namespace GeneticOperators.Selectors
 {
 	/// <summary>
 	///		Allows to perform roulette selection algorithm on a population.

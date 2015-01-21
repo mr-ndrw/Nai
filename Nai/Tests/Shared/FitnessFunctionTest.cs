@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Genetic;
 using NUnit.Framework;
+using Shared.Bases;
 using Shared.Functions;
 using Shared.GraphRelated;
 using Shared.InterfacesAndBases;
