@@ -193,18 +193,22 @@ namespace Genetic
 		public CandidateSolution Evolve()
 		{
 
-			//	Initialize the population with random values inside their Solution (bool)array if the population is empty.
+			//	Initialize the population with random values inside their Solution (bool)array if the population is empty.			Console.WriteLine(this.Population.Count);
 			if (this.Population.Count == 0)
-			{
+			{				
 				this.Population.AddRange(this.GetRandomizedCandidateSolutions(this._populationCount));
+
 			}
-			
 			//	Loop until Termination Condition is met.
 			//	DO
 			while (!this._terminator.IsTerminationConditionMet(this.Population))
 			{
 				//	Evaluate the population.
-				this.Population.ForEach(solution => this._function.EvaluateSolution(solution));
+				foreach (var candidateSolution in Population)
+				{
+					this._function.EvaluateSolution(candidateSolution);
+				}
+				//this.Population.ForEach(solution => this._function.EvaluateSolution(solution));
 
 				//	Select the best solutions for safekeeping, therefore not allowing it be lost amidst the evolution process.
 				this._elitistStrategy.PickBest(this.Population);
@@ -220,9 +224,9 @@ namespace Genetic
 				this._mutator.Mutate(this.Population);
 			}
 			//	OD	--	Rinse, repeat...
-
 			this.Population.AddRange(this._elitistStrategy.ReturnBest());
-
+			//	Reevaluate the population: 
+			this.Population.ForEach(solution => this._function.EvaluateSolution(solution));
 			var result = this.Population.MaxBy(solution => solution.EvaluationResult);
 
 			return result;

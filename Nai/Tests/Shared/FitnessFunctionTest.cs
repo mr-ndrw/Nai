@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Genetic;
 using NUnit.Framework;
 using Shared.Bases;
 using Shared.Functions;
@@ -64,72 +62,38 @@ namespace Tests.Shared
 		}
 
 		[Test]
-		public void IrrationalSolutionsExpect0()
+		public void InfeasibleSolutions()
 		{
 			//	Arrange.
-			//	Graph prearranged in TestFixtureSetUp.
-			var irrationalSolutions = new List<CandidateSolution>
-			                          {
-				                          new CandidateSolution(new bool[4] {false, false, false, false}), //	no vertices
-				                          new CandidateSolution(new bool[4] {true, false, false, false}), //	a only
-				                          new CandidateSolution(new bool[4] {false, true, false, false}), //	b only
-				                          new CandidateSolution(new bool[4] {false, false, true, false}), //	c only
-				                          new CandidateSolution(new bool[4] {false, false, false, true}), //	d only
-				                          new CandidateSolution(new bool[4] {true, true, false, false}), //	ab
-				                          new CandidateSolution(new bool[4] {true, false, true, false}), //	ac
-				                          new CandidateSolution(new bool[4] {false, false, true, true}), //	cd
-				                          new CandidateSolution(new bool[4] {false, true, false, true}) //	bd
-			                          };
+			var totallyInfeasibleSolution = new CandidateSolution(new bool[4] {false, false, false, false}); //	no vertices
+			var oneVertexSolutions = new List<CandidateSolution>
+			                         {
+				                         new CandidateSolution(new bool[4] {true, false, false, false}), //	a only
+				                         new CandidateSolution(new bool[4] {false, true, false, false}), //	b only
+				                         new CandidateSolution(new bool[4] {false, false, true, false}), //	c only
+				                         new CandidateSolution(new bool[4] {false, false, false, true}) //	d only
+			                         };
 
-			//	Act
-			irrationalSolutions.ForEach(solution => this.function.EvaluateSolution(solution));
-			//irrationalSolutions.ForEach(solution => System.Diagnostics.Debug.Print("{0}\n", solution.EvaluationResult));
-
-
-			//	Assert
-			//	Each one should have EvaluationResult set to 0.
-			Assert.That(irrationalSolutions.All(solution => solution.EvaluationResult == 0.0));
-		}
-
-		[Test]
-		public void RationalSolutionsExpectOneOverTwo()
-		{
-			//	Arrange
-			//	Graph prearranged in FixtureSetUp
-			var rationalSolutions = new List<CandidateSolution>
-			                        {
-				                        new CandidateSolution(new bool[4] {true, false, false, true}), //ad
-				                        new CandidateSolution(new bool[4] {false, true, true, false}) //cb
-			                        };
-
-			//	Act
-			rationalSolutions.ForEach(solution => this.function.EvaluateSolution(solution));
-			rationalSolutions.ForEach(solution => Debug.Print("{0}\n", solution.EvaluationResult));
-
-			//	Assert
-			//	Each one should have Evaluation result set to 0.5.
-			Assert.That(rationalSolutions.All(solution => solution.EvaluationResult == 0.5));
-		}
-
-		[Test]
-		public void RationaNonOptimalSolutionsExpectOneOverThree()
-		{
-			//	Arrange
-			//	Graph prearranged in FixtureSetUp
-			var rationalNonOptimalSolutions = new List<CandidateSolution>
+			var twoVertexInfeasibleSolution = new List<CandidateSolution>
 			                                  {
-				                                  new CandidateSolution(new bool[4] {true, true, true, false}),
-				                                  new CandidateSolution(new bool[4] {true, true, false, true}),
-				                                  new CandidateSolution(new bool[4] {true, false, true, true}),
-				                                  new CandidateSolution(new bool[4] {false, true, true, true})
+				                                  new CandidateSolution(new bool[4] {true, true, false, false}), //	ab
+				                                  new CandidateSolution(new bool[4] {true, false, true, false}), //	ac
+				                                  new CandidateSolution(new bool[4] {false, false, true, true}), //	cd
+				                                  new CandidateSolution(new bool[4] {false, true, false, true}) //	bd
 			                                  };
 
-			//	Act
-			rationalNonOptimalSolutions.ForEach(solution => this.function.EvaluateSolution(solution));
-			rationalNonOptimalSolutions.ForEach(solution => Debug.Print("{0}\n", solution.EvaluationResult));
+			//	Act.
 
-			//	Arrange
-			Assert.That(rationalNonOptimalSolutions.All(solution => solution.EvaluationResult == (double) 1 / (double) 3));
+			function.EvaluateSolution(totallyInfeasibleSolution);
+			oneVertexSolutions.ForEach(solution => function.EvaluateSolution(solution));
+			twoVertexInfeasibleSolution.ForEach(solution => function.EvaluateSolution(solution));
+
+			//	Assert.
+
+			Assert.That(totallyInfeasibleSolution.EvaluationResult, Is.EqualTo(4.0));
+			Assert.That(oneVertexSolutions.All(solution => solution.EvaluationResult == 5.0), Is.True);
+			Assert.That(twoVertexInfeasibleSolution.All(solution => solution.EvaluationResult == 5.0), Is.True);
+
 		}
 	}
 }

@@ -28,7 +28,18 @@ namespace Shared.Functions
 		/// </returns>
 		public double EvaluateSolution(CandidateSolution solutionCandidate)
 		{
-			//	Basic premises and terms:
+			var totalNumberOfVertices = this.Graph.Vertices.Count;
+			var totalNumberOfEdges = this.Graph.Edges.Count;
+			//	calculate the number of missing edges
+			var missingEdgesCount = this.CountMissingEdges(solutionCandidate);
+			var numberOfVerticesPresent = solutionCandidate.Solution.Count(vertex => vertex == true);
+
+			solutionCandidate.EvaluationResult = (totalNumberOfEdges - missingEdgesCount) + (totalNumberOfVertices - numberOfVerticesPresent);
+			;
+
+			return solutionCandidate.EvaluationResult;
+
+/*			//	Basic premises and terms:
 			//	Rational solution	-	Solution that meets the criteria of being a vertex cover - minimal or not.
 			//	Irrational soltion	-	Solution that doesn't meet above criteria i.e. is not a vertex cover.
 			//	Feasible solutions	-	A set of mixed rational and irrational solutions.	
@@ -43,7 +54,42 @@ namespace Shared.Functions
 
 			var numberOfVerticesPresent = solutionCandidate.Solution.Count(vertex => vertex == true);
 
-			return solutionCandidate.EvaluationResult = 1 / (double) numberOfVerticesPresent;
+			return solutionCandidate.EvaluationResult = 1 / (double) numberOfVerticesPresent;*/
+		}
+
+		/// <summary>
+		///		Returns the number of missing edges.
+		/// </summary>
+		/// <param name="candidateSolution"></param>
+		/// <returns></returns>
+		private int CountMissingEdges(CandidateSolution candidateSolution)
+		{
+			var presentEdgesInTheSolution = new bool[this.Graph.Edges.Count];//all will be false during creation.
+			//	Iterate through all vertices proposed by the candidate solution
+			//	and mark true in above array edges present in the Graph.
+			for (var i = 0; i < candidateSolution.Solution.Count(); i++)
+			{
+				if (!candidateSolution.Solution.ElementAt(i)) continue;
+				var vrtx = this.Graph.Vertices[i];
+				//	iterate through vertex's edges
+				foreach (var edge in vrtx.Edges)
+				{
+					//	get the label of the edge
+					var label = edge.Label;
+					var index = 0;
+					//	get the index in the array of this labeled edge, this 'should' always assign a value to index.
+					for (var j = 0; j < this.Graph.Edges.Count; j++)
+					{
+						if (this.Graph.Edges[j].Label != label) continue;
+						index = j;
+						break;
+					}
+					presentEdgesInTheSolution[index] = true;
+				}
+			
+			}
+			//	Return the count of edges which are marked as false - missing.
+			return presentEdgesInTheSolution.Count(b => !b);
 		}
 
 		/// <summary>

@@ -72,7 +72,7 @@ namespace GeneticOperators.Mutators
 			//	and the second one by the genome length.
 			var randomPairs = Enumerable.Range(0, countOfBitsToMutate)
 			                            .Select(
-				                            pair => new Pair<int>(RandomGenerator.GetRandomInt(), RandomGenerator.GetRandomInt()));
+				                            pair => new Pair<int>(RandomGenerator.GetRandomInt(populationToMutate.Count()), RandomGenerator.GetRandomInt(populationToMutate.ElementAt(0).Solution.Count())));
 
 			//	iterate over the generated pairs and mutate(change the value to the opposite one) the bits based on the current pair's indices.
 			foreach (var pair in randomPairs)

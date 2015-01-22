@@ -41,9 +41,9 @@ namespace GeneticOperators.Terminators
 		/// </returns>
 		public bool IsTerminationConditionMet(IEnumerable<CandidateSolution> candidateSolutions)
 		{
-			if (this._currentEpoch > this._maxNumberOfEpochs) return false;
+			if (this._currentEpoch > this._maxNumberOfEpochs) return true;
 			this._currentEpoch++;
-			return true;
+			return false;
 		}
 	}
 }
