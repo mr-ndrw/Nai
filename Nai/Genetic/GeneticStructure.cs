@@ -15,34 +15,35 @@ namespace Genetic
 	{
 		#region Constructor
 
-		/// <summary>
-		///     Initializes an object with population and algorithm which will be used in the evolution process.
-		/// </summary>
-		/// <param name="populationCount">
-		///     The total number of species within the population.
-		/// </param>
+		///  <summary>
+		///      Initializes an object with population and algorithm which will be used in the evolution process.
+		///  </summary>
+		///  <param name="populationCount">
+		///      The total number of species within the population.
+		///  </param>
+		/// <param name="maximumNumberOfEpochs"></param>
 		/// <param name="function">
-		///     Shared fitness function across the genetic structure.
-		/// </param>
-		/// <param name="selector">
-		///     Selector for the given problem.
-		/// </param>
-		/// <param name="mutator">
-		///     Mutator for the given problem.
-		/// </param>
-		/// <param name="recombinator">
-		///     Recombinator for the population.
-		/// </param>
-		/// <param name="terminator">
-		///     Termination interface.
-		/// </param>
-		/// <param name="genomeLength">
-		///     Length of indiviudal genome.
-		/// </param>
-		/// <param name="elitistStrategy">
-		///		Strategy for picking the best present solution in the epoch.
-		/// </param>
-		public GeneticStructure(int populationCount, int genomeLength, IFitnessFunction function, Selector selector,
+		///      Shared fitness function across the genetic structure.
+		///  </param>
+		///  <param name="selector">
+		///      Selector for the given problem.
+		///  </param>
+		///  <param name="mutator">
+		///      Mutator for the given problem.
+		///  </param>
+		///  <param name="recombinator">
+		///      Recombinator for the population.
+		///  </param>
+		///  <param name="terminator">
+		///      Termination interface.
+		///  </param>
+		///  <param name="genomeLength">
+		///      Length of indiviudal genome.
+		///  </param>
+		///  <param name="elitistStrategy">
+		/// 		Strategy for picking the best present solution in the epoch.
+		///  </param>
+		public GeneticStructure(int populationCount, int genomeLength, int maximumNumberOfEpochs, IFitnessFunction function, Selector selector,
 		                        IMutator mutator, Recombinator recombinator, IElitistStrategy elitistStrategy,
 		                        ITerminator terminator)
 		{
@@ -59,12 +60,14 @@ namespace Genetic
 			this._selector = selector;
 			this._mutator = mutator;
 			this._genomeLength = genomeLength;
+			this._maximumNumberOfEpochs = maximumNumberOfEpochs;
 			this._recombinator = recombinator;
 			this._elitistStrategy = elitistStrategy;
 			this._terminator = terminator;
 			this._populationCount = populationCount;
 			this._genomeLength = genomeLength;
 			this.Population = new List<CandidateSolution>(populationCount);
+			this._currentEpoch = 1;|
 		}
 
 		/// <summary>
@@ -112,6 +115,7 @@ namespace Genetic
 			this._populationCount = population.Count;
 			this._genomeLength = population[0].Solution.Count();
 			this.Population = population;
+			this._currentEpoch = 1;|
 		}
 
 		#endregion
@@ -158,9 +162,27 @@ namespace Genetic
 		/// </summary>
 		private readonly ITerminator _terminator;
 
+		/// <summary>
+		///		The number of the current epoch.
+		/// </summary>
+		private int _currentEpoch;
+
+		/// <summary>
+		///		Maximum number of epochs allowed per algorithm execution.
+		/// </summary>
+		private readonly int _maximumNumberOfEpochs;
+
 		#endregion
 
 		#region Properties
+
+		public int CurrentEpoch
+		{
+			get
+			{
+				return _currentEpoch;
+			}
+		}
 
 		/// <summary>
 		///     Total number of species within the population.
@@ -222,6 +244,7 @@ namespace Genetic
 
 				//	Mutate offsprings.
 				this._mutator.Mutate(this.Population);
+				_currentEpoch++;
 			}
 			//	OD	--	Rinse, repeat...
 			this.Population.AddRange(this._elitistStrategy.ReturnBest());

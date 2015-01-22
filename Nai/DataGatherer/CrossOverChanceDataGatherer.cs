@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataGatherer.Shared;
 using Genetic;
 using OfficeOpenXml;
@@ -11,17 +6,8 @@ using Shared.Utils;
 
 namespace DataGatherer
 {
-	public class BitMutationChanceDataGatherer
+	public class CrossOverChanceDataGatherer
 	{
-		private readonly string _path;
-		private readonly string _fileName;
-
-		public BitMutationChanceDataGatherer(string path, string fileName)
-		{
-			this._path = path;
-			this._fileName = fileName;
-		}
-
 		public void Evaluate()
 		{
 			//	We will perform 500 statistical runs to gather data.
@@ -31,19 +17,16 @@ namespace DataGatherer
 			//	We will check every 0.05 value going up from 0.05 to 1.0. therefore we will heave 20 readings for each step.
 			var statContainer = new StatContainer(20);
 
-
-			var startingBitMutationChance = 0.05;
-			var finalBitMutationChance = 1.0;
-			const int startingBitMutationChanceStep = 1; //start from 0.05
-			const int finalBitMutationChanceStep = 20; //finish on 1.0
-			const double bitMutationChanceIncrease = 0.05; //increase each time by 0.05;
+			const int startingCrossOverChanceStep = 1; //start from 0.05
+			const int finalCrossOverChanceStep = 20; //finish on 1.0
+			const double crossOverChanceIncrease = 0.05; //increase each time by 0.05;
 			const int genomeLength = 13;
 			const int populationSize = 80;
 			const int numberOfEpochs = 500;
-			const double crossOverChance = 0.35;
+			const double bitMutationChance = 0.35;
 			const double expectedMaximumEvaluationResult = 30;	//	use this one.
 
-			for (var i = 1; i <= finalBitMutationChanceStep; i++)
+			for (var i = 1; i <= finalCrossOverChanceStep; i++)
 			{
 				statContainer.ListOfPairValues.Add(new Pair<double>(i * 0.05, 0.0));
 			}
@@ -52,26 +35,26 @@ namespace DataGatherer
 			{
 				Console.WriteLine("Current run: {0} out of {1}", currentEvaluationRun, numberOfEvaluations);
 				//double currentBitMutationChance = startingBitMutationChance;
-				for (var currentMutationStep = startingBitMutationChanceStep; currentMutationStep <= finalBitMutationChanceStep; currentMutationStep++)
+				for (var currentCrossOverChanceStep = startingCrossOverChanceStep; currentCrossOverChanceStep <= finalCrossOverChanceStep; currentCrossOverChanceStep++)
 				{
-					var currentBitMutationChance = currentMutationStep*bitMutationChanceIncrease;
+					var currentCrossOverChance = currentCrossOverChanceStep * crossOverChanceIncrease;
 					//	Update the structure so that it will initialize the GeneticStructure with the value of the expected
 					//	maximum evaluation of result, which most likely will be 30-31.
 					geneticAlgorithmStructure = AlgorithmStructureInitializer.CreateGeneticStructure(populationSize, genomeLength,
-						numberOfEpochs, crossOverChance, currentBitMutationChance);
+						numberOfEpochs, bitMutationChance, currentCrossOverChance);
 
 					geneticAlgorithmStructure.Evolve();
 					var numberOfEpochsWhenBestSolutionWasFound = geneticAlgorithmStructure.CurrentEpoch;
 
 					Console.WriteLine("Result: {0}", numberOfEpochsWhenBestSolutionWasFound);
-					statContainer.ListOfPairValues[currentMutationStep - 1].Y += numberOfEpochsWhenBestSolutionWasFound;
+					statContainer.ListOfPairValues[currentCrossOverChanceStep - 1].Y += numberOfEpochsWhenBestSolutionWasFound;
 				}
 			}
 
-//			foreach (var pair in statContainer.ListOfPairValues)
-//			{
-//				pair.Y /= numberOfEpochs;
-//			}
+			//			foreach (var pair in statContainer.ListOfPairValues)
+			//			{
+			//				pair.Y /= numberOfEpochs;
+			//			}
 
 			using (var xlPackage = new ExcelPackage())
 			{
@@ -85,9 +68,9 @@ namespace DataGatherer
 
 				workSheet.Name = "Data";
 
-				for (var i = 1; i <= finalBitMutationChanceStep; i++)
+				for (var i = 1; i <= finalCrossOverChanceStep; i++)
 				{
-					var pair = statContainer.ListOfPairValues[i-1];
+					var pair = statContainer.ListOfPairValues[i - 1];
 					var bitMutationCell = workSheet.Cells[i, 1];
 					var resultCell = workSheet.Cells[i, 2];
 
