@@ -44,7 +44,7 @@ namespace Shared.Bases
 		public IEnumerable<bool> Solution { get; set; }
 
 		/// <summary>
-		///     Result of the evaluation by the funtion.
+		///     Result of the function evaluation.
 		/// </summary>
 		public double EvaluationResult { get; set; }
 
