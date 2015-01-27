@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataGatherer.Genetic;
 
 namespace DataGatherer
 {
@@ -18,7 +19,7 @@ namespace DataGatherer
 
 		private static void MutationData()
 		{
-			var gatherer = new BitMutationChanceDataGatherer("yada", "yada");
+			var gatherer = new PopulationCountDataGatherer();
 			gatherer.Evaluate();
 		}
 	}

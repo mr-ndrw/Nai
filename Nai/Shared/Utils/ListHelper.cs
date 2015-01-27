@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 
 namespace Shared.Utils
@@ -23,7 +24,9 @@ namespace Shared.Utils
 		/// </param>
 		public static void Shuffle<T>(this IList<T> list)
 		{
-			var provider = new RNGCryptoServiceProvider();
+			Random rnd = new Random();
+			list = list.OrderBy<T, int>((item) => rnd.Next()).ToList();
+/*			var provider = new RNGCryptoServiceProvider();
 			var n = list.Count;
 			while (n > 1)
 			{
@@ -35,7 +38,7 @@ namespace Shared.Utils
 				var value = list[k];
 				list[k] = list[n];
 				list[n] = value;
-			}
+			}*/
 		}
 	}
 }

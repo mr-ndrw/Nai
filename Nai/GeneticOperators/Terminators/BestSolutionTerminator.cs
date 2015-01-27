@@ -16,7 +16,7 @@ namespace GeneticOperators.Terminators
 		/// </summary>
 		public BestSolutionTerminator(double expectedMaximumFitnessValue)
 		{
-			ExpectedMaximumFitnessValue = expectedMaximumFitnessValue;
+			this.ExpectedMaximumFitnessValue = expectedMaximumFitnessValue;
 		}
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace GeneticOperators.Terminators
 		{
 			var foundMaximumEvaluationResult = candidateSolutions.MaxBy(solution => solution.EvaluationResult).EvaluationResult;
 
-			return foundMaximumEvaluationResult >= ExpectedMaximumFitnessValue;
+			return foundMaximumEvaluationResult >= this.ExpectedMaximumFitnessValue;
 		}
 	}
 }

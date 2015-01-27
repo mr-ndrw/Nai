@@ -19,6 +19,7 @@ namespace SimulatedAnnealing
 			this.NeighbourFunction = neighbourFunction;
 			this.StartingTemperature = startingTemperature;
 			this.FinalTemeprature = finalTemeprature;
+			this.TemperatureWhenBestWasFound = 1;
 		}
 
 		public double StartingTemperature { get; private set; }
@@ -28,6 +29,7 @@ namespace SimulatedAnnealing
 		public IProbabilityFunction ProbabilityFunction { get; private set; }
 		public INeighbourFunction NeighbourFunction { get; private set; }
 		public IFitnessFunction FitnessFunction { get; private set; }
+		public double TemperatureWhenBestWasFound { get; private set; }
 
 		public CandidateSolution Simulate()
 		{
@@ -38,7 +40,7 @@ namespace SimulatedAnnealing
 			var bestSolution = evaluatedSolution;
 
 			CandidateSolution neighbourSolution;
-
+			this.TemperatureWhenBestWasFound = currentTemperature;
 			while (currentTemperature > this.FinalTemeprature)
 			{
 				neighbourSolution = this.NeighbourFunction.SelectNeighbour(evaluatedSolution);
@@ -50,6 +52,7 @@ namespace SimulatedAnnealing
 					if (evaluatedSolution.EvaluationResult > bestSolution.EvaluationResult)
 					{
 						bestSolution = evaluatedSolution;
+						this.TemperatureWhenBestWasFound = currentTemperature;
 					}
 				} else if (RandomGenerator.GetRandomDouble() < this.ProbabilityFunction.CalculateProbabilityOfChoice(evaluatedSolution, neighbourSolution, currentTemperature))
 				{

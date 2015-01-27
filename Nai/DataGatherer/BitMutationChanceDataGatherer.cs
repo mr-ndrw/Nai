@@ -25,7 +25,7 @@ namespace DataGatherer
 		public void Evaluate()
 		{
 			//	We will perform 500 statistical runs to gather data.
-			const int numberOfEvaluations = 100;
+			const int numberOfEvaluations = 1000;
 
 			GeneticStructure geneticAlgorithmStructure;
 			//	We will check every 0.05 value going up from 0.05 to 1.0. therefore we will heave 20 readings for each step.
@@ -39,7 +39,6 @@ namespace DataGatherer
 			const double bitMutationChanceIncrease = 0.05; //increase each time by 0.05;
 			const int genomeLength = 13;
 			const int populationSize = 80;
-			const int numberOfEpochs = 500;
 			const double crossOverChance = 0.35;
 			const double expectedMaximumEvaluationResult = 30;	//	use this one.
 
@@ -50,28 +49,24 @@ namespace DataGatherer
 
 			for (var currentEvaluationRun = 0; currentEvaluationRun < numberOfEvaluations; currentEvaluationRun++)
 			{
-				Console.WriteLine("Current run: {0} out of {1}", currentEvaluationRun, numberOfEvaluations);
+				//Console.WriteLine("Current run: {0} out of {1}", currentEvaluationRun, numberOfEvaluations);
 				//double currentBitMutationChance = startingBitMutationChance;
 				for (var currentMutationStep = startingBitMutationChanceStep; currentMutationStep <= finalBitMutationChanceStep; currentMutationStep++)
 				{
 					var currentBitMutationChance = currentMutationStep*bitMutationChanceIncrease;
 					//	Update the structure so that it will initialize the GeneticStructure with the value of the expected
 					//	maximum evaluation of result, which most likely will be 30-31.
+					//Console.WriteLine("Current mutation chance: {0}", currentBitMutationChance);
 					geneticAlgorithmStructure = AlgorithmStructureInitializer.CreateGeneticStructure(populationSize, genomeLength,
-						numberOfEpochs, crossOverChance, currentBitMutationChance);
+						expectedMaximumEvaluationResult, crossOverChance, currentBitMutationChance);
 
-					geneticAlgorithmStructure.Evolve();
+					var bestSolutionResult = geneticAlgorithmStructure.Evolve().EvaluationResult;
 					var numberOfEpochsWhenBestSolutionWasFound = geneticAlgorithmStructure.CurrentEpoch;
 
-					Console.WriteLine("Result: {0}", numberOfEpochsWhenBestSolutionWasFound);
+					//Console.WriteLine("Number of epcohs when best was found: {0}, it's result: {1}", numberOfEpochsWhenBestSolutionWasFound, bestSolutionResult);
 					statContainer.ListOfPairValues[currentMutationStep - 1].Y += numberOfEpochsWhenBestSolutionWasFound;
 				}
 			}
-
-//			foreach (var pair in statContainer.ListOfPairValues)
-//			{
-//				pair.Y /= numberOfEpochs;
-//			}
 
 			using (var xlPackage = new ExcelPackage())
 			{

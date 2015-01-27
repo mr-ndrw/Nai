@@ -50,11 +50,14 @@
   <ItemGroup>
     <Compile Include="BitMutationChanceDataGatherer.cs" />
     <Compile Include="CrossOverChanceDataGatherer.cs" />
+    <Compile Include="Genetic\BitAndCrossOverChanceAnalyticalDataGather.cs" />
     <Compile Include="MainProgram.cs" />
-    <Compile Include="PopulationCountDataGatherer.cs" />
+    <Compile Include="Genetic\PopulationCountDataGatherer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\2DStatContainer.cs" />
     <Compile Include="Shared\AlgorithmStructureInitializer.cs" />
     <Compile Include="Shared\StatContainer.cs" />
+    <Compile Include="SimulatedAnnealing\StartingTempAndFinalTempDataGatherer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

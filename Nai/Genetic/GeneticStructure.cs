@@ -43,7 +43,7 @@ namespace Genetic
 		///  <param name="elitistStrategy">
 		/// 		Strategy for picking the best present solution in the epoch.
 		///  </param>
-		public GeneticStructure(int populationCount, int genomeLength, int maximumNumberOfEpochs, IFitnessFunction function, Selector selector,
+		public GeneticStructure(int populationCount, int genomeLength, IFitnessFunction function, Selector selector,
 		                        IMutator mutator, Recombinator recombinator, IElitistStrategy elitistStrategy,
 		                        ITerminator terminator)
 		{
@@ -60,14 +60,13 @@ namespace Genetic
 			this._selector = selector;
 			this._mutator = mutator;
 			this._genomeLength = genomeLength;
-			this._maximumNumberOfEpochs = maximumNumberOfEpochs;
 			this._recombinator = recombinator;
 			this._elitistStrategy = elitistStrategy;
 			this._terminator = terminator;
 			this._populationCount = populationCount;
 			this._genomeLength = genomeLength;
 			this.Population = new List<CandidateSolution>(populationCount);
-			this._currentEpoch = 1;|
+			this._currentEpoch = 1;
 		}
 
 		/// <summary>
@@ -115,7 +114,7 @@ namespace Genetic
 			this._populationCount = population.Count;
 			this._genomeLength = population[0].Solution.Count();
 			this.Population = population;
-			this._currentEpoch = 1;|
+			this._currentEpoch = 1;
 		}
 
 		#endregion
@@ -244,6 +243,14 @@ namespace Genetic
 
 				//	Mutate offsprings.
 				this._mutator.Mutate(this.Population);
+
+				//	Reevaluate the population.
+				foreach (var candidateSolution in Population)
+				{
+					this._function.EvaluateSolution(candidateSolution);
+				}
+				//	Reselect the best solutions for safekeeping, therefore not allowing it be lost amidst the evolution process.
+				this._elitistStrategy.PickBest(this.Population);
 				_currentEpoch++;
 			}
 			//	OD	--	Rinse, repeat...

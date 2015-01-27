@@ -35,9 +35,9 @@ namespace GeneticOperators.Selectors
 			//	Evaluate each candaidate solution.
 			// candidateSolutions.ForEach(solution => this._fitnessFunction.EvaluateSolution(solution));
 
-			//	Sort the population descendingly.
+			//	Sort the population descendingly, so that larger values will have it easier to to become selected(lower ANF!!!), and smaller values will have it harder.
 			candidateSolutions = (from solution in candidateSolutions
-								  orderby solution.EvaluationResult descending
+								  orderby solution.EvaluationResult
 								  select solution).ToList();
 
 			//	Create a collection of normalized EvaluationValues.
@@ -73,13 +73,18 @@ namespace GeneticOperators.Selectors
 				var currentRadnom = randomDoubles[doubleIndex];
 				for(var accNormalizedIndex = 0; accNormalizedIndex < populationCount; accNormalizedIndex++)
 				{
-					if (!(accumulatedNormalizedValues[accNormalizedIndex] > currentRadnom)) continue;
-					var solutionToAdd = candidateSolutions[accNormalizedIndex];
-					newPopulation.Add(solutionToAdd);
+					//	Once chosen, choose the solution and break;
+					if (accumulatedNormalizedValues[accNormalizedIndex] > currentRadnom)
+					{
+						var solutionToAdd = candidateSolutions[accNormalizedIndex];
+						newPopulation.Add(solutionToAdd);
+						break;
+					}
 				}
 			}
 			//	When done, subsitute the old solution with the new one.
-			candidateSolutions = newPopulation; 
+			candidateSolutions = new List<CandidateSolution>(newPopulation);
+			
 			//	END
 		}//	/PickBestFitPopulation(List<CandidateSolution>)
 
